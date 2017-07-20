@@ -271,4 +271,29 @@
     </foreign-key>
   </table>
 
+  <!-- basemap  -->
+  <table name="basemap" isCrossRef="true">
+    <column name="id" type="varchar" size="128" primaryKey="true" />
+    <column name="created_at" type="timestamp" required="true" />
+    <column name="title" type="varchar" size="128" required="true" />
+
+    <column name="regions" type="varchar" size="128" />
+    <column name="borders" type="varchar" size="128" />
+    <column name="aspect" type="float" />
+    <column name="projection" type="varchar" size="512" />
+    <column name="bounding_box" type="varchar" size="512" />
+    <column name="area" type="bigint" />
+    <column name="keys" type="clob" />
+
+    <column name="raw_data" type="clob" />
+    <column name="mapshaper_parameters" type="clob" />
+    <column name="topojson" type="clob" />
+    <column name="outline_topojson" type="clob" />
+
+    <column name="last_edit_step" type="integer" />
+    <column name="is_public" type="boolean" default="true" />
+
+    <column name="published_map" type="clob" />
+  </table>
+
 </database>
