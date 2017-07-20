@@ -24,40 +24,43 @@ abstract class BaseBasemapPeer
     const TM_CLASS = 'BasemapTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 17;
+    const NUM_COLUMNS = 15;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 17;
+    const NUM_HYDRATE_COLUMNS = 15;
 
     /** the column name for the id field */
     const ID = 'basemap.id';
 
-    /** the column name for the created_at field */
-    const CREATED_AT = 'basemap.created_at';
+    /** the column name for the key field */
+    const KEY = 'basemap.key';
+
+    /** the column name for the region_id field */
+    const REGION_ID = 'basemap.region_id';
+
+    /** the column name for the version field */
+    const VERSION = 'basemap.version';
+
+    /** the column name for the last_version field */
+    const LAST_VERSION = 'basemap.last_version';
 
     /** the column name for the title field */
     const TITLE = 'basemap.title';
+
+    /** the column name for the version_title field */
+    const VERSION_TITLE = 'basemap.version_title';
+
+    /** the column name for the created_at field */
+    const CREATED_AT = 'basemap.created_at';
 
     /** the column name for the regions field */
     const REGIONS = 'basemap.regions';
 
     /** the column name for the borders field */
     const BORDERS = 'basemap.borders';
-
-    /** the column name for the aspect field */
-    const ASPECT = 'basemap.aspect';
-
-    /** the column name for the projection field */
-    const PROJECTION = 'basemap.projection';
-
-    /** the column name for the bounding_box field */
-    const BOUNDING_BOX = 'basemap.bounding_box';
-
-    /** the column name for the area field */
-    const AREA = 'basemap.area';
 
     /** the column name for the keys field */
     const KEYS = 'basemap.keys';
@@ -71,17 +74,8 @@ abstract class BaseBasemapPeer
     /** the column name for the topojson field */
     const TOPOJSON = 'basemap.topojson';
 
-    /** the column name for the outline_topojson field */
-    const OUTLINE_TOPOJSON = 'basemap.outline_topojson';
-
-    /** the column name for the last_edit_step field */
-    const LAST_EDIT_STEP = 'basemap.last_edit_step';
-
     /** the column name for the is_public field */
     const IS_PUBLIC = 'basemap.is_public';
-
-    /** the column name for the published_map field */
-    const PUBLISHED_MAP = 'basemap.published_map';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -102,12 +96,12 @@ abstract class BaseBasemapPeer
      * e.g. BasemapPeer::$fieldNames[BasemapPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'Title', 'Regions', 'Borders', 'Aspect', 'Projection', 'BoundingBox', 'Area', 'Keys', 'RawData', 'MapshaperParameters', 'Topojson', 'OutlineTopojson', 'LastEditStep', 'IsPublic', 'PublishedMap', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'createdAt', 'title', 'regions', 'borders', 'aspect', 'projection', 'boundingBox', 'area', 'keys', 'rawData', 'mapshaperParameters', 'topojson', 'outlineTopojson', 'lastEditStep', 'isPublic', 'publishedMap', ),
-        BasePeer::TYPE_COLNAME => array (BasemapPeer::ID, BasemapPeer::CREATED_AT, BasemapPeer::TITLE, BasemapPeer::REGIONS, BasemapPeer::BORDERS, BasemapPeer::ASPECT, BasemapPeer::PROJECTION, BasemapPeer::BOUNDING_BOX, BasemapPeer::AREA, BasemapPeer::KEYS, BasemapPeer::RAW_DATA, BasemapPeer::MAPSHAPER_PARAMETERS, BasemapPeer::TOPOJSON, BasemapPeer::OUTLINE_TOPOJSON, BasemapPeer::LAST_EDIT_STEP, BasemapPeer::IS_PUBLIC, BasemapPeer::PUBLISHED_MAP, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'CREATED_AT', 'TITLE', 'REGIONS', 'BORDERS', 'ASPECT', 'PROJECTION', 'BOUNDING_BOX', 'AREA', 'KEYS', 'RAW_DATA', 'MAPSHAPER_PARAMETERS', 'TOPOJSON', 'OUTLINE_TOPOJSON', 'LAST_EDIT_STEP', 'IS_PUBLIC', 'PUBLISHED_MAP', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'title', 'regions', 'borders', 'aspect', 'projection', 'bounding_box', 'area', 'keys', 'raw_data', 'mapshaper_parameters', 'topojson', 'outline_topojson', 'last_edit_step', 'is_public', 'published_map', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Key', 'RegionId', 'Version', 'LastVersion', 'Title', 'VersionTitle', 'CreatedAt', 'Regions', 'Borders', 'Keys', 'RawData', 'MapshaperParameters', 'Topojson', 'IsPublic', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'key', 'regionId', 'version', 'lastVersion', 'title', 'versionTitle', 'createdAt', 'regions', 'borders', 'keys', 'rawData', 'mapshaperParameters', 'topojson', 'isPublic', ),
+        BasePeer::TYPE_COLNAME => array (BasemapPeer::ID, BasemapPeer::KEY, BasemapPeer::REGION_ID, BasemapPeer::VERSION, BasemapPeer::LAST_VERSION, BasemapPeer::TITLE, BasemapPeer::VERSION_TITLE, BasemapPeer::CREATED_AT, BasemapPeer::REGIONS, BasemapPeer::BORDERS, BasemapPeer::KEYS, BasemapPeer::RAW_DATA, BasemapPeer::MAPSHAPER_PARAMETERS, BasemapPeer::TOPOJSON, BasemapPeer::IS_PUBLIC, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'KEY', 'REGION_ID', 'VERSION', 'LAST_VERSION', 'TITLE', 'VERSION_TITLE', 'CREATED_AT', 'REGIONS', 'BORDERS', 'KEYS', 'RAW_DATA', 'MAPSHAPER_PARAMETERS', 'TOPOJSON', 'IS_PUBLIC', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'key', 'region_id', 'version', 'last_version', 'title', 'version_title', 'created_at', 'regions', 'borders', 'keys', 'raw_data', 'mapshaper_parameters', 'topojson', 'is_public', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
     );
 
     /**
@@ -117,12 +111,12 @@ abstract class BaseBasemapPeer
      * e.g. BasemapPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'Title' => 2, 'Regions' => 3, 'Borders' => 4, 'Aspect' => 5, 'Projection' => 6, 'BoundingBox' => 7, 'Area' => 8, 'Keys' => 9, 'RawData' => 10, 'MapshaperParameters' => 11, 'Topojson' => 12, 'OutlineTopojson' => 13, 'LastEditStep' => 14, 'IsPublic' => 15, 'PublishedMap' => 16, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'createdAt' => 1, 'title' => 2, 'regions' => 3, 'borders' => 4, 'aspect' => 5, 'projection' => 6, 'boundingBox' => 7, 'area' => 8, 'keys' => 9, 'rawData' => 10, 'mapshaperParameters' => 11, 'topojson' => 12, 'outlineTopojson' => 13, 'lastEditStep' => 14, 'isPublic' => 15, 'publishedMap' => 16, ),
-        BasePeer::TYPE_COLNAME => array (BasemapPeer::ID => 0, BasemapPeer::CREATED_AT => 1, BasemapPeer::TITLE => 2, BasemapPeer::REGIONS => 3, BasemapPeer::BORDERS => 4, BasemapPeer::ASPECT => 5, BasemapPeer::PROJECTION => 6, BasemapPeer::BOUNDING_BOX => 7, BasemapPeer::AREA => 8, BasemapPeer::KEYS => 9, BasemapPeer::RAW_DATA => 10, BasemapPeer::MAPSHAPER_PARAMETERS => 11, BasemapPeer::TOPOJSON => 12, BasemapPeer::OUTLINE_TOPOJSON => 13, BasemapPeer::LAST_EDIT_STEP => 14, BasemapPeer::IS_PUBLIC => 15, BasemapPeer::PUBLISHED_MAP => 16, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'CREATED_AT' => 1, 'TITLE' => 2, 'REGIONS' => 3, 'BORDERS' => 4, 'ASPECT' => 5, 'PROJECTION' => 6, 'BOUNDING_BOX' => 7, 'AREA' => 8, 'KEYS' => 9, 'RAW_DATA' => 10, 'MAPSHAPER_PARAMETERS' => 11, 'TOPOJSON' => 12, 'OUTLINE_TOPOJSON' => 13, 'LAST_EDIT_STEP' => 14, 'IS_PUBLIC' => 15, 'PUBLISHED_MAP' => 16, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'title' => 2, 'regions' => 3, 'borders' => 4, 'aspect' => 5, 'projection' => 6, 'bounding_box' => 7, 'area' => 8, 'keys' => 9, 'raw_data' => 10, 'mapshaper_parameters' => 11, 'topojson' => 12, 'outline_topojson' => 13, 'last_edit_step' => 14, 'is_public' => 15, 'published_map' => 16, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Key' => 1, 'RegionId' => 2, 'Version' => 3, 'LastVersion' => 4, 'Title' => 5, 'VersionTitle' => 6, 'CreatedAt' => 7, 'Regions' => 8, 'Borders' => 9, 'Keys' => 10, 'RawData' => 11, 'MapshaperParameters' => 12, 'Topojson' => 13, 'IsPublic' => 14, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'key' => 1, 'regionId' => 2, 'version' => 3, 'lastVersion' => 4, 'title' => 5, 'versionTitle' => 6, 'createdAt' => 7, 'regions' => 8, 'borders' => 9, 'keys' => 10, 'rawData' => 11, 'mapshaperParameters' => 12, 'topojson' => 13, 'isPublic' => 14, ),
+        BasePeer::TYPE_COLNAME => array (BasemapPeer::ID => 0, BasemapPeer::KEY => 1, BasemapPeer::REGION_ID => 2, BasemapPeer::VERSION => 3, BasemapPeer::LAST_VERSION => 4, BasemapPeer::TITLE => 5, BasemapPeer::VERSION_TITLE => 6, BasemapPeer::CREATED_AT => 7, BasemapPeer::REGIONS => 8, BasemapPeer::BORDERS => 9, BasemapPeer::KEYS => 10, BasemapPeer::RAW_DATA => 11, BasemapPeer::MAPSHAPER_PARAMETERS => 12, BasemapPeer::TOPOJSON => 13, BasemapPeer::IS_PUBLIC => 14, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'KEY' => 1, 'REGION_ID' => 2, 'VERSION' => 3, 'LAST_VERSION' => 4, 'TITLE' => 5, 'VERSION_TITLE' => 6, 'CREATED_AT' => 7, 'REGIONS' => 8, 'BORDERS' => 9, 'KEYS' => 10, 'RAW_DATA' => 11, 'MAPSHAPER_PARAMETERS' => 12, 'TOPOJSON' => 13, 'IS_PUBLIC' => 14, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'key' => 1, 'region_id' => 2, 'version' => 3, 'last_version' => 4, 'title' => 5, 'version_title' => 6, 'created_at' => 7, 'regions' => 8, 'borders' => 9, 'keys' => 10, 'raw_data' => 11, 'mapshaper_parameters' => 12, 'topojson' => 13, 'is_public' => 14, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
     );
 
     /**
@@ -197,40 +191,36 @@ abstract class BaseBasemapPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(BasemapPeer::ID);
-            $criteria->addSelectColumn(BasemapPeer::CREATED_AT);
+            $criteria->addSelectColumn(BasemapPeer::KEY);
+            $criteria->addSelectColumn(BasemapPeer::REGION_ID);
+            $criteria->addSelectColumn(BasemapPeer::VERSION);
+            $criteria->addSelectColumn(BasemapPeer::LAST_VERSION);
             $criteria->addSelectColumn(BasemapPeer::TITLE);
+            $criteria->addSelectColumn(BasemapPeer::VERSION_TITLE);
+            $criteria->addSelectColumn(BasemapPeer::CREATED_AT);
             $criteria->addSelectColumn(BasemapPeer::REGIONS);
             $criteria->addSelectColumn(BasemapPeer::BORDERS);
-            $criteria->addSelectColumn(BasemapPeer::ASPECT);
-            $criteria->addSelectColumn(BasemapPeer::PROJECTION);
-            $criteria->addSelectColumn(BasemapPeer::BOUNDING_BOX);
-            $criteria->addSelectColumn(BasemapPeer::AREA);
             $criteria->addSelectColumn(BasemapPeer::KEYS);
             $criteria->addSelectColumn(BasemapPeer::RAW_DATA);
             $criteria->addSelectColumn(BasemapPeer::MAPSHAPER_PARAMETERS);
             $criteria->addSelectColumn(BasemapPeer::TOPOJSON);
-            $criteria->addSelectColumn(BasemapPeer::OUTLINE_TOPOJSON);
-            $criteria->addSelectColumn(BasemapPeer::LAST_EDIT_STEP);
             $criteria->addSelectColumn(BasemapPeer::IS_PUBLIC);
-            $criteria->addSelectColumn(BasemapPeer::PUBLISHED_MAP);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.key');
+            $criteria->addSelectColumn($alias . '.region_id');
+            $criteria->addSelectColumn($alias . '.version');
+            $criteria->addSelectColumn($alias . '.last_version');
             $criteria->addSelectColumn($alias . '.title');
+            $criteria->addSelectColumn($alias . '.version_title');
+            $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.regions');
             $criteria->addSelectColumn($alias . '.borders');
-            $criteria->addSelectColumn($alias . '.aspect');
-            $criteria->addSelectColumn($alias . '.projection');
-            $criteria->addSelectColumn($alias . '.bounding_box');
-            $criteria->addSelectColumn($alias . '.area');
             $criteria->addSelectColumn($alias . '.keys');
             $criteria->addSelectColumn($alias . '.raw_data');
             $criteria->addSelectColumn($alias . '.mapshaper_parameters');
             $criteria->addSelectColumn($alias . '.topojson');
-            $criteria->addSelectColumn($alias . '.outline_topojson');
-            $criteria->addSelectColumn($alias . '.last_edit_step');
             $criteria->addSelectColumn($alias . '.is_public');
-            $criteria->addSelectColumn($alias . '.published_map');
         }
     }
 
@@ -357,7 +347,7 @@ abstract class BaseBasemapPeer
     {
         if (Propel::isInstancePoolingEnabled()) {
             if ($key === null) {
-                $key = (string) $obj->getId();
+                $key = serialize(array((string) $obj->getId(), (string) $obj->getKey(), (string) $obj->getVersionTitle()));
             } // if key === null
             BasemapPeer::$instances[$key] = $obj;
         }
@@ -380,10 +370,10 @@ abstract class BaseBasemapPeer
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
             if (is_object($value) && $value instanceof Basemap) {
-                $key = (string) $value->getId();
-            } elseif (is_scalar($value)) {
+                $key = serialize(array((string) $value->getId(), (string) $value->getKey(), (string) $value->getVersionTitle()));
+            } elseif (is_array($value) && count($value) === 3) {
                 // assume we've been passed a primary key
-                $key = (string) $value;
+                $key = serialize(array((string) $value[0], (string) $value[1], (string) $value[2]));
             } else {
                 $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Basemap object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
@@ -452,11 +442,11 @@ abstract class BaseBasemapPeer
     public static function getPrimaryKeyHashFromRow($row, $startcol = 0)
     {
         // If the PK cannot be derived from the row, return null.
-        if ($row[$startcol] === null) {
+        if ($row[$startcol] === null && $row[$startcol + 1] === null && $row[$startcol + 6] === null) {
             return null;
         }
 
-        return (string) $row[$startcol];
+        return serialize(array((string) $row[$startcol], (string) $row[$startcol + 1], (string) $row[$startcol + 6]));
     }
 
     /**
@@ -471,7 +461,7 @@ abstract class BaseBasemapPeer
     public static function getPrimaryKeyFromRow($row, $startcol = 0)
     {
 
-        return (string) $row[$startcol];
+        return array((int) $row[$startcol], (string) $row[$startcol + 1], (string) $row[$startcol + 6]);
     }
 
     /**
@@ -533,6 +523,244 @@ abstract class BaseBasemapPeer
         return array($obj, $col);
     }
 
+
+    /**
+     * Returns the number of rows matching criteria, joining the related Region table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinRegion(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            BasemapPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(BasemapPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(BasemapPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(BasemapPeer::REGION_ID, RegionPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Selects a collection of Basemap objects pre-filled with their Region objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Basemap objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinRegion(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(BasemapPeer::DATABASE_NAME);
+        }
+
+        BasemapPeer::addSelectColumns($criteria);
+        $startcol = BasemapPeer::NUM_HYDRATE_COLUMNS;
+        RegionPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(BasemapPeer::REGION_ID, RegionPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = BasemapPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = BasemapPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = BasemapPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                BasemapPeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = RegionPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = RegionPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = RegionPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    RegionPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (Basemap) to $obj2 (Region)
+                $obj2->addBasemap($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining all related tables
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            BasemapPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(BasemapPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(BasemapPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(BasemapPeer::REGION_ID, RegionPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+    /**
+     * Selects a collection of Basemap objects pre-filled with all related objects.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Basemap objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(BasemapPeer::DATABASE_NAME);
+        }
+
+        BasemapPeer::addSelectColumns($criteria);
+        $startcol2 = BasemapPeer::NUM_HYDRATE_COLUMNS;
+
+        RegionPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + RegionPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(BasemapPeer::REGION_ID, RegionPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = BasemapPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = BasemapPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = BasemapPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                BasemapPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+            // Add objects for joined Region rows
+
+            $key2 = RegionPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            if ($key2 !== null) {
+                $obj2 = RegionPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = RegionPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    RegionPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 loaded
+
+                // Add the $obj1 (Basemap) to the collection in $obj2 (Region)
+                $obj2->addBasemap($obj1);
+            } // if joined row not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
     /**
      * Returns the TableMap related to this peer.
      * This method is not needed for general use but a specific application could have a need.
@@ -588,6 +816,10 @@ abstract class BaseBasemapPeer
             $criteria = $values->buildCriteria(); // build Criteria from Basemap object
         }
 
+        if ($criteria->containsKey(BasemapPeer::ID) && $criteria->keyContainsValue(BasemapPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.BasemapPeer::ID.')');
+        }
+
 
         // Set the correct dbName
         $criteria->setDbName(BasemapPeer::DATABASE_NAME);
@@ -630,6 +862,22 @@ abstract class BaseBasemapPeer
             $value = $criteria->remove(BasemapPeer::ID);
             if ($value) {
                 $selectCriteria->add(BasemapPeer::ID, $value, $comparison);
+            } else {
+                $selectCriteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
+            }
+
+            $comparison = $criteria->getComparison(BasemapPeer::KEY);
+            $value = $criteria->remove(BasemapPeer::KEY);
+            if ($value) {
+                $selectCriteria->add(BasemapPeer::KEY, $value, $comparison);
+            } else {
+                $selectCriteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
+            }
+
+            $comparison = $criteria->getComparison(BasemapPeer::VERSION_TITLE);
+            $value = $criteria->remove(BasemapPeer::VERSION_TITLE);
+            if ($value) {
+                $selectCriteria->add(BasemapPeer::VERSION_TITLE, $value, $comparison);
             } else {
                 $selectCriteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
             }
@@ -708,10 +956,19 @@ abstract class BaseBasemapPeer
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
-            $criteria->add(BasemapPeer::ID, (array) $values, Criteria::IN);
-            // invalidate the cache for this object(s)
-            foreach ((array) $values as $singleval) {
-                BasemapPeer::removeInstanceFromPool($singleval);
+            // primary key is composite; we therefore, expect
+            // the primary key passed to be an array of pkey values
+            if (count($values) == count($values, COUNT_RECURSIVE)) {
+                // array is not multi-dimensional
+                $values = array($values);
+            }
+            foreach ($values as $value) {
+                $criterion = $criteria->getNewCriterion(BasemapPeer::ID, $value[0]);
+                $criterion->addAnd($criteria->getNewCriterion(BasemapPeer::KEY, $value[1]));
+                $criterion->addAnd($criteria->getNewCriterion(BasemapPeer::VERSION_TITLE, $value[2]));
+                $criteria->addOr($criterion);
+                // we can invalidate the cache for this single PK
+                BasemapPeer::removeInstanceFromPool($value);
             }
         }
 
@@ -774,58 +1031,30 @@ abstract class BaseBasemapPeer
     }
 
     /**
-     * Retrieve a single object by pkey.
-     *
-     * @param      string $pk the primary key.
-     * @param      PropelPDO $con the connection to use
-     * @return Basemap
+     * Retrieve object using using composite pkey values.
+     * @param   int $id
+     * @param   string $key
+     * @param   string $version_title
+     * @param      PropelPDO $con
+     * @return   Basemap
      */
-    public static function retrieveByPK($pk, PropelPDO $con = null)
-    {
-
-        if (null !== ($obj = BasemapPeer::getInstanceFromPool((string) $pk))) {
-            return $obj;
+    public static function retrieveByPK($id, $key, $version_title, PropelPDO $con = null) {
+        $_instancePoolKey = serialize(array((string) $id, (string) $key, (string) $version_title));
+         if (null !== ($obj = BasemapPeer::getInstanceFromPool($_instancePoolKey))) {
+             return $obj;
         }
 
         if ($con === null) {
             $con = Propel::getConnection(BasemapPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
-
         $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
-        $criteria->add(BasemapPeer::ID, $pk);
-
+        $criteria->add(BasemapPeer::ID, $id);
+        $criteria->add(BasemapPeer::KEY, $key);
+        $criteria->add(BasemapPeer::VERSION_TITLE, $version_title);
         $v = BasemapPeer::doSelect($criteria, $con);
 
-        return !empty($v) > 0 ? $v[0] : null;
+        return !empty($v) ? $v[0] : null;
     }
-
-    /**
-     * Retrieve multiple objects by pkey.
-     *
-     * @param      array $pks List of primary keys
-     * @param      PropelPDO $con the connection to use
-     * @return Basemap[]
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
-     */
-    public static function retrieveByPKs($pks, PropelPDO $con = null)
-    {
-        if ($con === null) {
-            $con = Propel::getConnection(BasemapPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $objs = null;
-        if (empty($pks)) {
-            $objs = array();
-        } else {
-            $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
-            $criteria->add(BasemapPeer::ID, $pks, Criteria::IN);
-            $objs = BasemapPeer::doSelect($criteria, $con);
-        }
-
-        return $objs;
-    }
-
 } // BaseBasemapPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.

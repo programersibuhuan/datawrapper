@@ -7,82 +7,79 @@
  *
  *
  * @method BasemapQuery orderById($order = Criteria::ASC) Order by the id column
- * @method BasemapQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
+ * @method BasemapQuery orderByKey($order = Criteria::ASC) Order by the key column
+ * @method BasemapQuery orderByRegionId($order = Criteria::ASC) Order by the region_id column
+ * @method BasemapQuery orderByVersion($order = Criteria::ASC) Order by the version column
+ * @method BasemapQuery orderByLastVersion($order = Criteria::ASC) Order by the last_version column
  * @method BasemapQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method BasemapQuery orderByVersionTitle($order = Criteria::ASC) Order by the version_title column
+ * @method BasemapQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method BasemapQuery orderByRegions($order = Criteria::ASC) Order by the regions column
  * @method BasemapQuery orderByBorders($order = Criteria::ASC) Order by the borders column
- * @method BasemapQuery orderByAspect($order = Criteria::ASC) Order by the aspect column
- * @method BasemapQuery orderByProjection($order = Criteria::ASC) Order by the projection column
- * @method BasemapQuery orderByBoundingBox($order = Criteria::ASC) Order by the bounding_box column
- * @method BasemapQuery orderByArea($order = Criteria::ASC) Order by the area column
  * @method BasemapQuery orderByKeys($order = Criteria::ASC) Order by the keys column
  * @method BasemapQuery orderByRawData($order = Criteria::ASC) Order by the raw_data column
  * @method BasemapQuery orderByMapshaperParameters($order = Criteria::ASC) Order by the mapshaper_parameters column
  * @method BasemapQuery orderByTopojson($order = Criteria::ASC) Order by the topojson column
- * @method BasemapQuery orderByOutlineTopojson($order = Criteria::ASC) Order by the outline_topojson column
- * @method BasemapQuery orderByLastEditStep($order = Criteria::ASC) Order by the last_edit_step column
  * @method BasemapQuery orderByIsPublic($order = Criteria::ASC) Order by the is_public column
- * @method BasemapQuery orderByPublishedMap($order = Criteria::ASC) Order by the published_map column
  *
  * @method BasemapQuery groupById() Group by the id column
- * @method BasemapQuery groupByCreatedAt() Group by the created_at column
+ * @method BasemapQuery groupByKey() Group by the key column
+ * @method BasemapQuery groupByRegionId() Group by the region_id column
+ * @method BasemapQuery groupByVersion() Group by the version column
+ * @method BasemapQuery groupByLastVersion() Group by the last_version column
  * @method BasemapQuery groupByTitle() Group by the title column
+ * @method BasemapQuery groupByVersionTitle() Group by the version_title column
+ * @method BasemapQuery groupByCreatedAt() Group by the created_at column
  * @method BasemapQuery groupByRegions() Group by the regions column
  * @method BasemapQuery groupByBorders() Group by the borders column
- * @method BasemapQuery groupByAspect() Group by the aspect column
- * @method BasemapQuery groupByProjection() Group by the projection column
- * @method BasemapQuery groupByBoundingBox() Group by the bounding_box column
- * @method BasemapQuery groupByArea() Group by the area column
  * @method BasemapQuery groupByKeys() Group by the keys column
  * @method BasemapQuery groupByRawData() Group by the raw_data column
  * @method BasemapQuery groupByMapshaperParameters() Group by the mapshaper_parameters column
  * @method BasemapQuery groupByTopojson() Group by the topojson column
- * @method BasemapQuery groupByOutlineTopojson() Group by the outline_topojson column
- * @method BasemapQuery groupByLastEditStep() Group by the last_edit_step column
  * @method BasemapQuery groupByIsPublic() Group by the is_public column
- * @method BasemapQuery groupByPublishedMap() Group by the published_map column
  *
  * @method BasemapQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method BasemapQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method BasemapQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method BasemapQuery leftJoinRegion($relationAlias = null) Adds a LEFT JOIN clause to the query using the Region relation
+ * @method BasemapQuery rightJoinRegion($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Region relation
+ * @method BasemapQuery innerJoinRegion($relationAlias = null) Adds a INNER JOIN clause to the query using the Region relation
+ *
  * @method Basemap findOne(PropelPDO $con = null) Return the first Basemap matching the query
  * @method Basemap findOneOrCreate(PropelPDO $con = null) Return the first Basemap matching the query, or a new Basemap object populated from the query conditions when no match is found
  *
- * @method Basemap findOneByCreatedAt(string $created_at) Return the first Basemap filtered by the created_at column
+ * @method Basemap findOneById(int $id) Return the first Basemap filtered by the id column
+ * @method Basemap findOneByKey(string $key) Return the first Basemap filtered by the key column
+ * @method Basemap findOneByRegionId(string $region_id) Return the first Basemap filtered by the region_id column
+ * @method Basemap findOneByVersion(int $version) Return the first Basemap filtered by the version column
+ * @method Basemap findOneByLastVersion(int $last_version) Return the first Basemap filtered by the last_version column
  * @method Basemap findOneByTitle(string $title) Return the first Basemap filtered by the title column
+ * @method Basemap findOneByVersionTitle(string $version_title) Return the first Basemap filtered by the version_title column
+ * @method Basemap findOneByCreatedAt(string $created_at) Return the first Basemap filtered by the created_at column
  * @method Basemap findOneByRegions(string $regions) Return the first Basemap filtered by the regions column
  * @method Basemap findOneByBorders(string $borders) Return the first Basemap filtered by the borders column
- * @method Basemap findOneByAspect(double $aspect) Return the first Basemap filtered by the aspect column
- * @method Basemap findOneByProjection(string $projection) Return the first Basemap filtered by the projection column
- * @method Basemap findOneByBoundingBox(string $bounding_box) Return the first Basemap filtered by the bounding_box column
- * @method Basemap findOneByArea(string $area) Return the first Basemap filtered by the area column
  * @method Basemap findOneByKeys(string $keys) Return the first Basemap filtered by the keys column
  * @method Basemap findOneByRawData(string $raw_data) Return the first Basemap filtered by the raw_data column
  * @method Basemap findOneByMapshaperParameters(string $mapshaper_parameters) Return the first Basemap filtered by the mapshaper_parameters column
  * @method Basemap findOneByTopojson(string $topojson) Return the first Basemap filtered by the topojson column
- * @method Basemap findOneByOutlineTopojson(string $outline_topojson) Return the first Basemap filtered by the outline_topojson column
- * @method Basemap findOneByLastEditStep(int $last_edit_step) Return the first Basemap filtered by the last_edit_step column
  * @method Basemap findOneByIsPublic(boolean $is_public) Return the first Basemap filtered by the is_public column
- * @method Basemap findOneByPublishedMap(string $published_map) Return the first Basemap filtered by the published_map column
  *
- * @method array findById(string $id) Return Basemap objects filtered by the id column
- * @method array findByCreatedAt(string $created_at) Return Basemap objects filtered by the created_at column
+ * @method array findById(int $id) Return Basemap objects filtered by the id column
+ * @method array findByKey(string $key) Return Basemap objects filtered by the key column
+ * @method array findByRegionId(string $region_id) Return Basemap objects filtered by the region_id column
+ * @method array findByVersion(int $version) Return Basemap objects filtered by the version column
+ * @method array findByLastVersion(int $last_version) Return Basemap objects filtered by the last_version column
  * @method array findByTitle(string $title) Return Basemap objects filtered by the title column
+ * @method array findByVersionTitle(string $version_title) Return Basemap objects filtered by the version_title column
+ * @method array findByCreatedAt(string $created_at) Return Basemap objects filtered by the created_at column
  * @method array findByRegions(string $regions) Return Basemap objects filtered by the regions column
  * @method array findByBorders(string $borders) Return Basemap objects filtered by the borders column
- * @method array findByAspect(double $aspect) Return Basemap objects filtered by the aspect column
- * @method array findByProjection(string $projection) Return Basemap objects filtered by the projection column
- * @method array findByBoundingBox(string $bounding_box) Return Basemap objects filtered by the bounding_box column
- * @method array findByArea(string $area) Return Basemap objects filtered by the area column
  * @method array findByKeys(string $keys) Return Basemap objects filtered by the keys column
  * @method array findByRawData(string $raw_data) Return Basemap objects filtered by the raw_data column
  * @method array findByMapshaperParameters(string $mapshaper_parameters) Return Basemap objects filtered by the mapshaper_parameters column
  * @method array findByTopojson(string $topojson) Return Basemap objects filtered by the topojson column
- * @method array findByOutlineTopojson(string $outline_topojson) Return Basemap objects filtered by the outline_topojson column
- * @method array findByLastEditStep(int $last_edit_step) Return Basemap objects filtered by the last_edit_step column
  * @method array findByIsPublic(boolean $is_public) Return Basemap objects filtered by the is_public column
- * @method array findByPublishedMap(string $published_map) Return Basemap objects filtered by the published_map column
  *
  * @package    propel.generator.datawrapper.om
  */
@@ -130,10 +127,11 @@ abstract class BaseBasemapQuery extends ModelCriteria
      * Go fast if the query is untouched.
      *
      * <code>
-     * $obj  = $c->findPk(12, $con);
+     * $obj = $c->findPk(array(12, 34, 56), $con);
      * </code>
      *
-     * @param mixed $key Primary key to use for the query
+     * @param array $key Primary key to use for the query
+                         A Primary key composition: [$id, $key, $version_title]
      * @param     PropelPDO $con an optional connection object
      *
      * @return   Basemap|Basemap[]|mixed the result, formatted by the current formatter
@@ -143,7 +141,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = BasemapPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = BasemapPeer::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1], (string) $key[2]))))) && !$this->formatter) {
             // the object is alredy in the instance pool
             return $obj;
         }
@@ -161,20 +159,6 @@ abstract class BaseBasemapQuery extends ModelCriteria
     }
 
     /**
-     * Alias of findPk to use instance pooling
-     *
-     * @param     mixed $key Primary key to use for the query
-     * @param     PropelPDO $con A connection object
-     *
-     * @return                 Basemap A model object, or null if the key is not found
-     * @throws PropelException
-     */
-     public function findOneById($key, $con = null)
-     {
-        return $this->findPk($key, $con);
-     }
-
-    /**
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
@@ -186,10 +170,12 @@ abstract class BaseBasemapQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `created_at`, `title`, `regions`, `borders`, `aspect`, `projection`, `bounding_box`, `area`, `keys`, `raw_data`, `mapshaper_parameters`, `topojson`, `outline_topojson`, `last_edit_step`, `is_public`, `published_map` FROM `basemap` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `key`, `region_id`, `version`, `last_version`, `title`, `version_title`, `created_at`, `regions`, `borders`, `keys`, `raw_data`, `mapshaper_parameters`, `topojson`, `is_public` FROM `basemap` WHERE `id` = :p0 AND `key` = :p1 AND `version_title` = :p2';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
+            $stmt->bindValue(':p1', $key[1], PDO::PARAM_STR);
+            $stmt->bindValue(':p2', $key[2], PDO::PARAM_STR);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -199,7 +185,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
         if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
             $obj = new Basemap();
             $obj->hydrate($row);
-            BasemapPeer::addInstanceToPool($obj, (string) $key);
+            BasemapPeer::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1], (string) $key[2])));
         }
         $stmt->closeCursor();
 
@@ -228,7 +214,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
     /**
      * Find objects by primary key
      * <code>
-     * $objs = $c->findPks(array(12, 56, 832), $con);
+     * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
      * </code>
      * @param     array $keys Primary keys to use for the query
      * @param     PropelPDO $con an optional connection object
@@ -258,8 +244,11 @@ abstract class BaseBasemapQuery extends ModelCriteria
      */
     public function filterByPrimaryKey($key)
     {
+        $this->addUsingAlias(BasemapPeer::ID, $key[0], Criteria::EQUAL);
+        $this->addUsingAlias(BasemapPeer::KEY, $key[1], Criteria::EQUAL);
+        $this->addUsingAlias(BasemapPeer::VERSION_TITLE, $key[2], Criteria::EQUAL);
 
-        return $this->addUsingAlias(BasemapPeer::ID, $key, Criteria::EQUAL);
+        return $this;
     }
 
     /**
@@ -271,8 +260,19 @@ abstract class BaseBasemapQuery extends ModelCriteria
      */
     public function filterByPrimaryKeys($keys)
     {
+        if (empty($keys)) {
+            return $this->add(null, '1<>1', Criteria::CUSTOM);
+        }
+        foreach ($keys as $key) {
+            $cton0 = $this->getNewCriterion(BasemapPeer::ID, $key[0], Criteria::EQUAL);
+            $cton1 = $this->getNewCriterion(BasemapPeer::KEY, $key[1], Criteria::EQUAL);
+            $cton0->addAnd($cton1);
+            $cton2 = $this->getNewCriterion(BasemapPeer::VERSION_TITLE, $key[2], Criteria::EQUAL);
+            $cton0->addAnd($cton2);
+            $this->addOr($cton0);
+        }
 
-        return $this->addUsingAlias(BasemapPeer::ID, $keys, Criteria::IN);
+        return $this;
     }
 
     /**
@@ -280,28 +280,241 @@ abstract class BaseBasemapQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterById('fooValue');   // WHERE id = 'fooValue'
-     * $query->filterById('%fooValue%'); // WHERE id LIKE '%fooValue%'
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id >= 12
+     * $query->filterById(array('max' => 12)); // WHERE id <= 12
      * </code>
      *
-     * @param     string $id The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return BasemapQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($id)) {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(BasemapPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(BasemapPeer::ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $id)) {
-                $id = str_replace('*', '%', $id);
-                $comparison = Criteria::LIKE;
             }
         }
 
         return $this->addUsingAlias(BasemapPeer::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the key column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByKey('fooValue');   // WHERE key = 'fooValue'
+     * $query->filterByKey('%fooValue%'); // WHERE key LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $key The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BasemapQuery The current query, for fluid interface
+     */
+    public function filterByKey($key = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($key)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $key)) {
+                $key = str_replace('*', '%', $key);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BasemapPeer::KEY, $key, $comparison);
+    }
+
+    /**
+     * Filter the query on the region_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByRegionId('fooValue');   // WHERE region_id = 'fooValue'
+     * $query->filterByRegionId('%fooValue%'); // WHERE region_id LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $regionId The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BasemapQuery The current query, for fluid interface
+     */
+    public function filterByRegionId($regionId = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($regionId)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $regionId)) {
+                $regionId = str_replace('*', '%', $regionId);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BasemapPeer::REGION_ID, $regionId, $comparison);
+    }
+
+    /**
+     * Filter the query on the version column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVersion(1234); // WHERE version = 1234
+     * $query->filterByVersion(array(12, 34)); // WHERE version IN (12, 34)
+     * $query->filterByVersion(array('min' => 12)); // WHERE version >= 12
+     * $query->filterByVersion(array('max' => 12)); // WHERE version <= 12
+     * </code>
+     *
+     * @param     mixed $version The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BasemapQuery The current query, for fluid interface
+     */
+    public function filterByVersion($version = null, $comparison = null)
+    {
+        if (is_array($version)) {
+            $useMinMax = false;
+            if (isset($version['min'])) {
+                $this->addUsingAlias(BasemapPeer::VERSION, $version['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($version['max'])) {
+                $this->addUsingAlias(BasemapPeer::VERSION, $version['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(BasemapPeer::VERSION, $version, $comparison);
+    }
+
+    /**
+     * Filter the query on the last_version column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLastVersion(1234); // WHERE last_version = 1234
+     * $query->filterByLastVersion(array(12, 34)); // WHERE last_version IN (12, 34)
+     * $query->filterByLastVersion(array('min' => 12)); // WHERE last_version >= 12
+     * $query->filterByLastVersion(array('max' => 12)); // WHERE last_version <= 12
+     * </code>
+     *
+     * @param     mixed $lastVersion The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BasemapQuery The current query, for fluid interface
+     */
+    public function filterByLastVersion($lastVersion = null, $comparison = null)
+    {
+        if (is_array($lastVersion)) {
+            $useMinMax = false;
+            if (isset($lastVersion['min'])) {
+                $this->addUsingAlias(BasemapPeer::LAST_VERSION, $lastVersion['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($lastVersion['max'])) {
+                $this->addUsingAlias(BasemapPeer::LAST_VERSION, $lastVersion['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(BasemapPeer::LAST_VERSION, $lastVersion, $comparison);
+    }
+
+    /**
+     * Filter the query on the title column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTitle('fooValue');   // WHERE title = 'fooValue'
+     * $query->filterByTitle('%fooValue%'); // WHERE title LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $title The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BasemapQuery The current query, for fluid interface
+     */
+    public function filterByTitle($title = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($title)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $title)) {
+                $title = str_replace('*', '%', $title);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BasemapPeer::TITLE, $title, $comparison);
+    }
+
+    /**
+     * Filter the query on the version_title column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVersionTitle('fooValue');   // WHERE version_title = 'fooValue'
+     * $query->filterByVersionTitle('%fooValue%'); // WHERE version_title LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $versionTitle The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return BasemapQuery The current query, for fluid interface
+     */
+    public function filterByVersionTitle($versionTitle = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($versionTitle)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $versionTitle)) {
+                $versionTitle = str_replace('*', '%', $versionTitle);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BasemapPeer::VERSION_TITLE, $versionTitle, $comparison);
     }
 
     /**
@@ -345,35 +558,6 @@ abstract class BaseBasemapQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BasemapPeer::CREATED_AT, $createdAt, $comparison);
-    }
-
-    /**
-     * Filter the query on the title column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByTitle('fooValue');   // WHERE title = 'fooValue'
-     * $query->filterByTitle('%fooValue%'); // WHERE title LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $title The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByTitle($title = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($title)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $title)) {
-                $title = str_replace('*', '%', $title);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::TITLE, $title, $comparison);
     }
 
     /**
@@ -432,148 +616,6 @@ abstract class BaseBasemapQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BasemapPeer::BORDERS, $borders, $comparison);
-    }
-
-    /**
-     * Filter the query on the aspect column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByAspect(1234); // WHERE aspect = 1234
-     * $query->filterByAspect(array(12, 34)); // WHERE aspect IN (12, 34)
-     * $query->filterByAspect(array('min' => 12)); // WHERE aspect >= 12
-     * $query->filterByAspect(array('max' => 12)); // WHERE aspect <= 12
-     * </code>
-     *
-     * @param     mixed $aspect The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByAspect($aspect = null, $comparison = null)
-    {
-        if (is_array($aspect)) {
-            $useMinMax = false;
-            if (isset($aspect['min'])) {
-                $this->addUsingAlias(BasemapPeer::ASPECT, $aspect['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($aspect['max'])) {
-                $this->addUsingAlias(BasemapPeer::ASPECT, $aspect['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::ASPECT, $aspect, $comparison);
-    }
-
-    /**
-     * Filter the query on the projection column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByProjection('fooValue');   // WHERE projection = 'fooValue'
-     * $query->filterByProjection('%fooValue%'); // WHERE projection LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $projection The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByProjection($projection = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($projection)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $projection)) {
-                $projection = str_replace('*', '%', $projection);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::PROJECTION, $projection, $comparison);
-    }
-
-    /**
-     * Filter the query on the bounding_box column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByBoundingBox('fooValue');   // WHERE bounding_box = 'fooValue'
-     * $query->filterByBoundingBox('%fooValue%'); // WHERE bounding_box LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $boundingBox The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByBoundingBox($boundingBox = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($boundingBox)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $boundingBox)) {
-                $boundingBox = str_replace('*', '%', $boundingBox);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::BOUNDING_BOX, $boundingBox, $comparison);
-    }
-
-    /**
-     * Filter the query on the area column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByArea(1234); // WHERE area = 1234
-     * $query->filterByArea(array(12, 34)); // WHERE area IN (12, 34)
-     * $query->filterByArea(array('min' => 12)); // WHERE area >= 12
-     * $query->filterByArea(array('max' => 12)); // WHERE area <= 12
-     * </code>
-     *
-     * @param     mixed $area The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByArea($area = null, $comparison = null)
-    {
-        if (is_array($area)) {
-            $useMinMax = false;
-            if (isset($area['min'])) {
-                $this->addUsingAlias(BasemapPeer::AREA, $area['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($area['max'])) {
-                $this->addUsingAlias(BasemapPeer::AREA, $area['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::AREA, $area, $comparison);
     }
 
     /**
@@ -693,77 +735,6 @@ abstract class BaseBasemapQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the outline_topojson column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByOutlineTopojson('fooValue');   // WHERE outline_topojson = 'fooValue'
-     * $query->filterByOutlineTopojson('%fooValue%'); // WHERE outline_topojson LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $outlineTopojson The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByOutlineTopojson($outlineTopojson = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($outlineTopojson)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $outlineTopojson)) {
-                $outlineTopojson = str_replace('*', '%', $outlineTopojson);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::OUTLINE_TOPOJSON, $outlineTopojson, $comparison);
-    }
-
-    /**
-     * Filter the query on the last_edit_step column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByLastEditStep(1234); // WHERE last_edit_step = 1234
-     * $query->filterByLastEditStep(array(12, 34)); // WHERE last_edit_step IN (12, 34)
-     * $query->filterByLastEditStep(array('min' => 12)); // WHERE last_edit_step >= 12
-     * $query->filterByLastEditStep(array('max' => 12)); // WHERE last_edit_step <= 12
-     * </code>
-     *
-     * @param     mixed $lastEditStep The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return BasemapQuery The current query, for fluid interface
-     */
-    public function filterByLastEditStep($lastEditStep = null, $comparison = null)
-    {
-        if (is_array($lastEditStep)) {
-            $useMinMax = false;
-            if (isset($lastEditStep['min'])) {
-                $this->addUsingAlias(BasemapPeer::LAST_EDIT_STEP, $lastEditStep['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($lastEditStep['max'])) {
-                $this->addUsingAlias(BasemapPeer::LAST_EDIT_STEP, $lastEditStep['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(BasemapPeer::LAST_EDIT_STEP, $lastEditStep, $comparison);
-    }
-
-    /**
      * Filter the query on the is_public column
      *
      * Example usage:
@@ -791,32 +762,79 @@ abstract class BaseBasemapQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the published_map column
+     * Filter the query by a related Region object
      *
-     * Example usage:
-     * <code>
-     * $query->filterByPublishedMap('fooValue');   // WHERE published_map = 'fooValue'
-     * $query->filterByPublishedMap('%fooValue%'); // WHERE published_map LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $publishedMap The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param   Region|PropelObjectCollection $region The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 BasemapQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByRegion($region, $comparison = null)
+    {
+        if ($region instanceof Region) {
+            return $this
+                ->addUsingAlias(BasemapPeer::REGION_ID, $region->getId(), $comparison);
+        } elseif ($region instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(BasemapPeer::REGION_ID, $region->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByRegion() only accepts arguments of type Region or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Region relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return BasemapQuery The current query, for fluid interface
      */
-    public function filterByPublishedMap($publishedMap = null, $comparison = null)
+    public function joinRegion($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
-        if (null === $comparison) {
-            if (is_array($publishedMap)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $publishedMap)) {
-                $publishedMap = str_replace('*', '%', $publishedMap);
-                $comparison = Criteria::LIKE;
-            }
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Region');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
         }
 
-        return $this->addUsingAlias(BasemapPeer::PUBLISHED_MAP, $publishedMap, $comparison);
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Region');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Region relation Region object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   RegionQuery A secondary query class using the current class as primary query
+     */
+    public function useRegionQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinRegion($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Region', 'RegionQuery');
     }
 
     /**
@@ -829,7 +847,10 @@ abstract class BaseBasemapQuery extends ModelCriteria
     public function prune($basemap = null)
     {
         if ($basemap) {
-            $this->addUsingAlias(BasemapPeer::ID, $basemap->getId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond0', $this->getAliasedColName(BasemapPeer::ID), $basemap->getId(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond1', $this->getAliasedColName(BasemapPeer::KEY), $basemap->getKey(), Criteria::NOT_EQUAL);
+            $this->addCond('pruneCond2', $this->getAliasedColName(BasemapPeer::VERSION_TITLE), $basemap->getVersionTitle(), Criteria::NOT_EQUAL);
+            $this->combine(array('pruneCond0', 'pruneCond1', 'pruneCond2'), Criteria::LOGICAL_OR);
         }
 
         return $this;

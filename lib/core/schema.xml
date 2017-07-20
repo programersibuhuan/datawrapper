@@ -273,27 +273,43 @@
 
   <!-- basemap  -->
   <table name="basemap" isCrossRef="true">
-    <column name="id" type="varchar" size="128" primaryKey="true" />
-    <column name="created_at" type="timestamp" required="true" />
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+    <column name="key" type="varchar" size="128" primaryKey="true" />
+    <column name="region_id" type="varchar" size="128" />
+
+    <column name="version" type="integer" required="true" default="1" />
+    <column name="last_version" type="integer" required="true" default="1" />
+
     <column name="title" type="varchar" size="128" required="true" />
+    <column name="version_title" type="varchar" size="128" primaryKey="true" />
+
+    <column name="created_at" type="timestamp" required="true" />
 
     <column name="regions" type="varchar" size="128" />
     <column name="borders" type="varchar" size="128" />
-    <column name="aspect" type="float" />
-    <column name="projection" type="varchar" size="512" />
-    <column name="bounding_box" type="varchar" size="512" />
-    <column name="area" type="bigint" />
     <column name="keys" type="clob" />
 
     <column name="raw_data" type="clob" />
     <column name="mapshaper_parameters" type="clob" />
     <column name="topojson" type="clob" />
-    <column name="outline_topojson" type="clob" />
 
-    <column name="last_edit_step" type="integer" />
     <column name="is_public" type="boolean" default="true" />
 
-    <column name="published_map" type="clob" />
+    <foreign-key foreignTable="region">
+      <reference local="region_id" foreign="id"/>
+    </foreign-key>
+  </table>
+
+  <!-- region  -->
+  <table name="region" isCrossRef="true">
+    <column name="id" type="varchar" size="128" primaryKey="true" />
+    <column name="title" type="varchar" size="128" required="true" />
+
+    <column name="aspect" type="float" />
+    <column name="projection" type="varchar" size="512" />
+    <column name="area" type="bigint" />
+    <column name="bounding_box" type="varchar" size="512" />
+    <column name="outline_topojson" type="clob" />
   </table>
 
 </database>

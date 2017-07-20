@@ -19,7 +19,6 @@ class Basemap extends BaseBasemap
         return array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "regions" => $this->getRegions(),
             "borders" => $this->getBorders(),
             "aspect" => $this->getAspect(),
             "proj" => $this->getProjection()
@@ -32,13 +31,25 @@ class Basemap extends BaseBasemap
 
     public function getKeys() {
         $keys = json_decode(parent::getKeys(), 1);
+        $topo = json_decode(parent::getTopojson(), 1);
+
         $k = [];
 
         foreach ($keys as $key) {
+            $data = [];
+
+            if (isset($topo["objects"][parent::getRegions()])) {
+                foreach ($topo["objects"][parent::getRegions()]["geometries"] as $geo) {
+                    if (isset($geo["properties"][$key]))
+                        $data[] = $geo["properties"][$key];
+                }
+            }
+
             $k[] = [
                 "value" => $key,
                 "label" => $key,
-                "description" => $key
+                "description" => $key,
+                "dataset" => $data
             ];
         }
 

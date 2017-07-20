@@ -31,21 +31,53 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
     /**
      * The value for the id field.
-     * @var        string
+     * @var        int
      */
     protected $id;
 
     /**
-     * The value for the created_at field.
+     * The value for the key field.
      * @var        string
      */
-    protected $created_at;
+    protected $key;
+
+    /**
+     * The value for the region_id field.
+     * @var        string
+     */
+    protected $region_id;
+
+    /**
+     * The value for the version field.
+     * Note: this column has a database default value of: 1
+     * @var        int
+     */
+    protected $version;
+
+    /**
+     * The value for the last_version field.
+     * Note: this column has a database default value of: 1
+     * @var        int
+     */
+    protected $last_version;
 
     /**
      * The value for the title field.
      * @var        string
      */
     protected $title;
+
+    /**
+     * The value for the version_title field.
+     * @var        string
+     */
+    protected $version_title;
+
+    /**
+     * The value for the created_at field.
+     * @var        string
+     */
+    protected $created_at;
 
     /**
      * The value for the regions field.
@@ -58,30 +90,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      * @var        string
      */
     protected $borders;
-
-    /**
-     * The value for the aspect field.
-     * @var        double
-     */
-    protected $aspect;
-
-    /**
-     * The value for the projection field.
-     * @var        string
-     */
-    protected $projection;
-
-    /**
-     * The value for the bounding_box field.
-     * @var        string
-     */
-    protected $bounding_box;
-
-    /**
-     * The value for the area field.
-     * @var        string
-     */
-    protected $area;
 
     /**
      * The value for the keys field.
@@ -108,18 +116,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     protected $topojson;
 
     /**
-     * The value for the outline_topojson field.
-     * @var        string
-     */
-    protected $outline_topojson;
-
-    /**
-     * The value for the last_edit_step field.
-     * @var        int
-     */
-    protected $last_edit_step;
-
-    /**
      * The value for the is_public field.
      * Note: this column has a database default value of: true
      * @var        boolean
@@ -127,10 +123,9 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     protected $is_public;
 
     /**
-     * The value for the published_map field.
-     * @var        string
+     * @var        Region
      */
-    protected $published_map;
+    protected $aRegion;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -160,6 +155,8 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      */
     public function applyDefaultValues()
     {
+        $this->version = 1;
+        $this->last_version = 1;
         $this->is_public = true;
     }
 
@@ -176,11 +173,71 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     /**
      * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get the [key] column value.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Get the [region_id] column value.
+     *
+     * @return string
+     */
+    public function getRegionId()
+    {
+        return $this->region_id;
+    }
+
+    /**
+     * Get the [version] column value.
+     *
+     * @return int
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Get the [last_version] column value.
+     *
+     * @return int
+     */
+    public function getLastVersion()
+    {
+        return $this->last_version;
+    }
+
+    /**
+     * Get the [title] column value.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Get the [version_title] column value.
+     *
+     * @return string
+     */
+    public function getVersionTitle()
+    {
+        return $this->version_title;
     }
 
     /**
@@ -224,16 +281,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [title] column value.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * Get the [regions] column value.
      *
      * @return string
@@ -251,46 +298,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     public function getBorders()
     {
         return $this->borders;
-    }
-
-    /**
-     * Get the [aspect] column value.
-     *
-     * @return double
-     */
-    public function getAspect()
-    {
-        return $this->aspect;
-    }
-
-    /**
-     * Get the [projection] column value.
-     *
-     * @return string
-     */
-    public function getProjection()
-    {
-        return $this->projection;
-    }
-
-    /**
-     * Get the [bounding_box] column value.
-     *
-     * @return string
-     */
-    public function getBoundingBox()
-    {
-        return $this->bounding_box;
-    }
-
-    /**
-     * Get the [area] column value.
-     *
-     * @return string
-     */
-    public function getArea()
-    {
-        return $this->area;
     }
 
     /**
@@ -334,26 +341,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [outline_topojson] column value.
-     *
-     * @return string
-     */
-    public function getOutlineTopojson()
-    {
-        return $this->outline_topojson;
-    }
-
-    /**
-     * Get the [last_edit_step] column value.
-     *
-     * @return int
-     */
-    public function getLastEditStep()
-    {
-        return $this->last_edit_step;
-    }
-
-    /**
      * Get the [is_public] column value.
      *
      * @return boolean
@@ -364,25 +351,15 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [published_map] column value.
-     *
-     * @return string
-     */
-    public function getPublishedMap()
-    {
-        return $this->published_map;
-    }
-
-    /**
      * Set the value of [id] column.
      *
-     * @param string $v new value
+     * @param int $v new value
      * @return Basemap The current object (for fluent API support)
      */
     public function setId($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->id !== $v) {
@@ -393,6 +370,136 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [key] column.
+     *
+     * @param string $v new value
+     * @return Basemap The current object (for fluent API support)
+     */
+    public function setKey($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->key !== $v) {
+            $this->key = $v;
+            $this->modifiedColumns[] = BasemapPeer::KEY;
+        }
+
+
+        return $this;
+    } // setKey()
+
+    /**
+     * Set the value of [region_id] column.
+     *
+     * @param string $v new value
+     * @return Basemap The current object (for fluent API support)
+     */
+    public function setRegionId($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->region_id !== $v) {
+            $this->region_id = $v;
+            $this->modifiedColumns[] = BasemapPeer::REGION_ID;
+        }
+
+        if ($this->aRegion !== null && $this->aRegion->getId() !== $v) {
+            $this->aRegion = null;
+        }
+
+
+        return $this;
+    } // setRegionId()
+
+    /**
+     * Set the value of [version] column.
+     *
+     * @param int $v new value
+     * @return Basemap The current object (for fluent API support)
+     */
+    public function setVersion($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->version !== $v) {
+            $this->version = $v;
+            $this->modifiedColumns[] = BasemapPeer::VERSION;
+        }
+
+
+        return $this;
+    } // setVersion()
+
+    /**
+     * Set the value of [last_version] column.
+     *
+     * @param int $v new value
+     * @return Basemap The current object (for fluent API support)
+     */
+    public function setLastVersion($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->last_version !== $v) {
+            $this->last_version = $v;
+            $this->modifiedColumns[] = BasemapPeer::LAST_VERSION;
+        }
+
+
+        return $this;
+    } // setLastVersion()
+
+    /**
+     * Set the value of [title] column.
+     *
+     * @param string $v new value
+     * @return Basemap The current object (for fluent API support)
+     */
+    public function setTitle($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->title !== $v) {
+            $this->title = $v;
+            $this->modifiedColumns[] = BasemapPeer::TITLE;
+        }
+
+
+        return $this;
+    } // setTitle()
+
+    /**
+     * Set the value of [version_title] column.
+     *
+     * @param string $v new value
+     * @return Basemap The current object (for fluent API support)
+     */
+    public function setVersionTitle($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->version_title !== $v) {
+            $this->version_title = $v;
+            $this->modifiedColumns[] = BasemapPeer::VERSION_TITLE;
+        }
+
+
+        return $this;
+    } // setVersionTitle()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
@@ -416,27 +523,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
         return $this;
     } // setCreatedAt()
-
-    /**
-     * Set the value of [title] column.
-     *
-     * @param string $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setTitle($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->title !== $v) {
-            $this->title = $v;
-            $this->modifiedColumns[] = BasemapPeer::TITLE;
-        }
-
-
-        return $this;
-    } // setTitle()
 
     /**
      * Set the value of [regions] column.
@@ -479,90 +565,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
         return $this;
     } // setBorders()
-
-    /**
-     * Set the value of [aspect] column.
-     *
-     * @param double $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setAspect($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (double) $v;
-        }
-
-        if ($this->aspect !== $v) {
-            $this->aspect = $v;
-            $this->modifiedColumns[] = BasemapPeer::ASPECT;
-        }
-
-
-        return $this;
-    } // setAspect()
-
-    /**
-     * Set the value of [projection] column.
-     *
-     * @param string $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setProjection($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->projection !== $v) {
-            $this->projection = $v;
-            $this->modifiedColumns[] = BasemapPeer::PROJECTION;
-        }
-
-
-        return $this;
-    } // setProjection()
-
-    /**
-     * Set the value of [bounding_box] column.
-     *
-     * @param string $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setBoundingBox($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->bounding_box !== $v) {
-            $this->bounding_box = $v;
-            $this->modifiedColumns[] = BasemapPeer::BOUNDING_BOX;
-        }
-
-
-        return $this;
-    } // setBoundingBox()
-
-    /**
-     * Set the value of [area] column.
-     *
-     * @param string $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setArea($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->area !== $v) {
-            $this->area = $v;
-            $this->modifiedColumns[] = BasemapPeer::AREA;
-        }
-
-
-        return $this;
-    } // setArea()
 
     /**
      * Set the value of [keys] column.
@@ -649,48 +651,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     } // setTopojson()
 
     /**
-     * Set the value of [outline_topojson] column.
-     *
-     * @param string $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setOutlineTopojson($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->outline_topojson !== $v) {
-            $this->outline_topojson = $v;
-            $this->modifiedColumns[] = BasemapPeer::OUTLINE_TOPOJSON;
-        }
-
-
-        return $this;
-    } // setOutlineTopojson()
-
-    /**
-     * Set the value of [last_edit_step] column.
-     *
-     * @param int $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setLastEditStep($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->last_edit_step !== $v) {
-            $this->last_edit_step = $v;
-            $this->modifiedColumns[] = BasemapPeer::LAST_EDIT_STEP;
-        }
-
-
-        return $this;
-    } // setLastEditStep()
-
-    /**
      * Sets the value of the [is_public] column.
      * Non-boolean arguments are converted using the following rules:
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
@@ -720,27 +680,6 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     } // setIsPublic()
 
     /**
-     * Set the value of [published_map] column.
-     *
-     * @param string $v new value
-     * @return Basemap The current object (for fluent API support)
-     */
-    public function setPublishedMap($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->published_map !== $v) {
-            $this->published_map = $v;
-            $this->modifiedColumns[] = BasemapPeer::PUBLISHED_MAP;
-        }
-
-
-        return $this;
-    } // setPublishedMap()
-
-    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -750,6 +689,14 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->version !== 1) {
+                return false;
+            }
+
+            if ($this->last_version !== 1) {
+                return false;
+            }
+
             if ($this->is_public !== true) {
                 return false;
             }
@@ -776,23 +723,21 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     {
         try {
 
-            $this->id = ($row[$startcol + 0] !== null) ? (string) $row[$startcol + 0] : null;
-            $this->created_at = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->title = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->regions = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->borders = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->aspect = ($row[$startcol + 5] !== null) ? (double) $row[$startcol + 5] : null;
-            $this->projection = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->bounding_box = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->area = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->keys = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
-            $this->raw_data = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
-            $this->mapshaper_parameters = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
-            $this->topojson = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
-            $this->outline_topojson = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
-            $this->last_edit_step = ($row[$startcol + 14] !== null) ? (int) $row[$startcol + 14] : null;
-            $this->is_public = ($row[$startcol + 15] !== null) ? (boolean) $row[$startcol + 15] : null;
-            $this->published_map = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
+            $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+            $this->key = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->region_id = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->version = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+            $this->last_version = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+            $this->title = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->version_title = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->created_at = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->regions = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->borders = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->keys = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->raw_data = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->mapshaper_parameters = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->topojson = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
+            $this->is_public = ($row[$startcol + 14] !== null) ? (boolean) $row[$startcol + 14] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -801,7 +746,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 17; // 17 = BasemapPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 15; // 15 = BasemapPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Basemap object", $e);
@@ -824,6 +769,9 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
+        if ($this->aRegion !== null && $this->region_id !== $this->aRegion->getId()) {
+            $this->aRegion = null;
+        }
     } // ensureConsistency
 
     /**
@@ -863,6 +811,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aRegion = null;
         } // if (deep)
     }
 
@@ -976,6 +925,18 @@ abstract class BaseBasemap extends BaseObject implements Persistent
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their coresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aRegion !== null) {
+                if ($this->aRegion->isModified() || $this->aRegion->isNew()) {
+                    $affectedRows += $this->aRegion->save($con);
+                }
+                $this->setRegion($this->aRegion);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -1007,34 +968,41 @@ abstract class BaseBasemap extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[] = BasemapPeer::ID;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . BasemapPeer::ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(BasemapPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(BasemapPeer::CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`created_at`';
+        if ($this->isColumnModified(BasemapPeer::KEY)) {
+            $modifiedColumns[':p' . $index++]  = '`key`';
+        }
+        if ($this->isColumnModified(BasemapPeer::REGION_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`region_id`';
+        }
+        if ($this->isColumnModified(BasemapPeer::VERSION)) {
+            $modifiedColumns[':p' . $index++]  = '`version`';
+        }
+        if ($this->isColumnModified(BasemapPeer::LAST_VERSION)) {
+            $modifiedColumns[':p' . $index++]  = '`last_version`';
         }
         if ($this->isColumnModified(BasemapPeer::TITLE)) {
             $modifiedColumns[':p' . $index++]  = '`title`';
+        }
+        if ($this->isColumnModified(BasemapPeer::VERSION_TITLE)) {
+            $modifiedColumns[':p' . $index++]  = '`version_title`';
+        }
+        if ($this->isColumnModified(BasemapPeer::CREATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = '`created_at`';
         }
         if ($this->isColumnModified(BasemapPeer::REGIONS)) {
             $modifiedColumns[':p' . $index++]  = '`regions`';
         }
         if ($this->isColumnModified(BasemapPeer::BORDERS)) {
             $modifiedColumns[':p' . $index++]  = '`borders`';
-        }
-        if ($this->isColumnModified(BasemapPeer::ASPECT)) {
-            $modifiedColumns[':p' . $index++]  = '`aspect`';
-        }
-        if ($this->isColumnModified(BasemapPeer::PROJECTION)) {
-            $modifiedColumns[':p' . $index++]  = '`projection`';
-        }
-        if ($this->isColumnModified(BasemapPeer::BOUNDING_BOX)) {
-            $modifiedColumns[':p' . $index++]  = '`bounding_box`';
-        }
-        if ($this->isColumnModified(BasemapPeer::AREA)) {
-            $modifiedColumns[':p' . $index++]  = '`area`';
         }
         if ($this->isColumnModified(BasemapPeer::KEYS)) {
             $modifiedColumns[':p' . $index++]  = '`keys`';
@@ -1048,17 +1016,8 @@ abstract class BaseBasemap extends BaseObject implements Persistent
         if ($this->isColumnModified(BasemapPeer::TOPOJSON)) {
             $modifiedColumns[':p' . $index++]  = '`topojson`';
         }
-        if ($this->isColumnModified(BasemapPeer::OUTLINE_TOPOJSON)) {
-            $modifiedColumns[':p' . $index++]  = '`outline_topojson`';
-        }
-        if ($this->isColumnModified(BasemapPeer::LAST_EDIT_STEP)) {
-            $modifiedColumns[':p' . $index++]  = '`last_edit_step`';
-        }
         if ($this->isColumnModified(BasemapPeer::IS_PUBLIC)) {
             $modifiedColumns[':p' . $index++]  = '`is_public`';
-        }
-        if ($this->isColumnModified(BasemapPeer::PUBLISHED_MAP)) {
-            $modifiedColumns[':p' . $index++]  = '`published_map`';
         }
 
         $sql = sprintf(
@@ -1072,31 +1031,34 @@ abstract class BaseBasemap extends BaseObject implements Persistent
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
                     case '`id`':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`created_at`':
-                        $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
+                    case '`key`':
+                        $stmt->bindValue($identifier, $this->key, PDO::PARAM_STR);
+                        break;
+                    case '`region_id`':
+                        $stmt->bindValue($identifier, $this->region_id, PDO::PARAM_STR);
+                        break;
+                    case '`version`':
+                        $stmt->bindValue($identifier, $this->version, PDO::PARAM_INT);
+                        break;
+                    case '`last_version`':
+                        $stmt->bindValue($identifier, $this->last_version, PDO::PARAM_INT);
                         break;
                     case '`title`':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
+                        break;
+                    case '`version_title`':
+                        $stmt->bindValue($identifier, $this->version_title, PDO::PARAM_STR);
+                        break;
+                    case '`created_at`':
+                        $stmt->bindValue($identifier, $this->created_at, PDO::PARAM_STR);
                         break;
                     case '`regions`':
                         $stmt->bindValue($identifier, $this->regions, PDO::PARAM_STR);
                         break;
                     case '`borders`':
                         $stmt->bindValue($identifier, $this->borders, PDO::PARAM_STR);
-                        break;
-                    case '`aspect`':
-                        $stmt->bindValue($identifier, $this->aspect, PDO::PARAM_STR);
-                        break;
-                    case '`projection`':
-                        $stmt->bindValue($identifier, $this->projection, PDO::PARAM_STR);
-                        break;
-                    case '`bounding_box`':
-                        $stmt->bindValue($identifier, $this->bounding_box, PDO::PARAM_STR);
-                        break;
-                    case '`area`':
-                        $stmt->bindValue($identifier, $this->area, PDO::PARAM_STR);
                         break;
                     case '`keys`':
                         $stmt->bindValue($identifier, $this->keys, PDO::PARAM_STR);
@@ -1110,17 +1072,8 @@ abstract class BaseBasemap extends BaseObject implements Persistent
                     case '`topojson`':
                         $stmt->bindValue($identifier, $this->topojson, PDO::PARAM_STR);
                         break;
-                    case '`outline_topojson`':
-                        $stmt->bindValue($identifier, $this->outline_topojson, PDO::PARAM_STR);
-                        break;
-                    case '`last_edit_step`':
-                        $stmt->bindValue($identifier, $this->last_edit_step, PDO::PARAM_INT);
-                        break;
                     case '`is_public`':
                         $stmt->bindValue($identifier, (int) $this->is_public, PDO::PARAM_INT);
-                        break;
-                    case '`published_map`':
-                        $stmt->bindValue($identifier, $this->published_map, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1129,6 +1082,13 @@ abstract class BaseBasemap extends BaseObject implements Persistent
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -1209,6 +1169,18 @@ abstract class BaseBasemap extends BaseObject implements Persistent
             $failureMap = array();
 
 
+            // We call the validate method on the following object(s) if they
+            // were passed to this object by their coresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aRegion !== null) {
+                if (!$this->aRegion->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aRegion->getValidationFailures());
+                }
+            }
+
+
             if (($retval = BasemapPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
@@ -1253,52 +1225,46 @@ abstract class BaseBasemap extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getCreatedAt();
+                return $this->getKey();
                 break;
             case 2:
-                return $this->getTitle();
+                return $this->getRegionId();
                 break;
             case 3:
-                return $this->getRegions();
+                return $this->getVersion();
                 break;
             case 4:
-                return $this->getBorders();
+                return $this->getLastVersion();
                 break;
             case 5:
-                return $this->getAspect();
+                return $this->getTitle();
                 break;
             case 6:
-                return $this->getProjection();
+                return $this->getVersionTitle();
                 break;
             case 7:
-                return $this->getBoundingBox();
+                return $this->getCreatedAt();
                 break;
             case 8:
-                return $this->getArea();
+                return $this->getRegions();
                 break;
             case 9:
-                return $this->getKeys();
+                return $this->getBorders();
                 break;
             case 10:
-                return $this->getRawData();
+                return $this->getKeys();
                 break;
             case 11:
-                return $this->getMapshaperParameters();
+                return $this->getRawData();
                 break;
             case 12:
-                return $this->getTopojson();
+                return $this->getMapshaperParameters();
                 break;
             case 13:
-                return $this->getOutlineTopojson();
+                return $this->getTopojson();
                 break;
             case 14:
-                return $this->getLastEditStep();
-                break;
-            case 15:
                 return $this->getIsPublic();
-                break;
-            case 16:
-                return $this->getPublishedMap();
                 break;
             default:
                 return null;
@@ -1317,35 +1283,39 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      *                    Defaults to BasePeer::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to true.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Basemap'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Basemap'][serialize($this->getPrimaryKey())])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Basemap'][$this->getPrimaryKey()] = true;
+        $alreadyDumpedObjects['Basemap'][serialize($this->getPrimaryKey())] = true;
         $keys = BasemapPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getCreatedAt(),
-            $keys[2] => $this->getTitle(),
-            $keys[3] => $this->getRegions(),
-            $keys[4] => $this->getBorders(),
-            $keys[5] => $this->getAspect(),
-            $keys[6] => $this->getProjection(),
-            $keys[7] => $this->getBoundingBox(),
-            $keys[8] => $this->getArea(),
-            $keys[9] => $this->getKeys(),
-            $keys[10] => $this->getRawData(),
-            $keys[11] => $this->getMapshaperParameters(),
-            $keys[12] => $this->getTopojson(),
-            $keys[13] => $this->getOutlineTopojson(),
-            $keys[14] => $this->getLastEditStep(),
-            $keys[15] => $this->getIsPublic(),
-            $keys[16] => $this->getPublishedMap(),
+            $keys[1] => $this->getKey(),
+            $keys[2] => $this->getRegionId(),
+            $keys[3] => $this->getVersion(),
+            $keys[4] => $this->getLastVersion(),
+            $keys[5] => $this->getTitle(),
+            $keys[6] => $this->getVersionTitle(),
+            $keys[7] => $this->getCreatedAt(),
+            $keys[8] => $this->getRegions(),
+            $keys[9] => $this->getBorders(),
+            $keys[10] => $this->getKeys(),
+            $keys[11] => $this->getRawData(),
+            $keys[12] => $this->getMapshaperParameters(),
+            $keys[13] => $this->getTopojson(),
+            $keys[14] => $this->getIsPublic(),
         );
+        if ($includeForeignObjects) {
+            if (null !== $this->aRegion) {
+                $result['Region'] = $this->aRegion->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -1383,52 +1353,46 @@ abstract class BaseBasemap extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setCreatedAt($value);
+                $this->setKey($value);
                 break;
             case 2:
-                $this->setTitle($value);
+                $this->setRegionId($value);
                 break;
             case 3:
-                $this->setRegions($value);
+                $this->setVersion($value);
                 break;
             case 4:
-                $this->setBorders($value);
+                $this->setLastVersion($value);
                 break;
             case 5:
-                $this->setAspect($value);
+                $this->setTitle($value);
                 break;
             case 6:
-                $this->setProjection($value);
+                $this->setVersionTitle($value);
                 break;
             case 7:
-                $this->setBoundingBox($value);
+                $this->setCreatedAt($value);
                 break;
             case 8:
-                $this->setArea($value);
+                $this->setRegions($value);
                 break;
             case 9:
-                $this->setKeys($value);
+                $this->setBorders($value);
                 break;
             case 10:
-                $this->setRawData($value);
+                $this->setKeys($value);
                 break;
             case 11:
-                $this->setMapshaperParameters($value);
+                $this->setRawData($value);
                 break;
             case 12:
-                $this->setTopojson($value);
+                $this->setMapshaperParameters($value);
                 break;
             case 13:
-                $this->setOutlineTopojson($value);
+                $this->setTopojson($value);
                 break;
             case 14:
-                $this->setLastEditStep($value);
-                break;
-            case 15:
                 $this->setIsPublic($value);
-                break;
-            case 16:
-                $this->setPublishedMap($value);
                 break;
         } // switch()
     }
@@ -1455,22 +1419,20 @@ abstract class BaseBasemap extends BaseObject implements Persistent
         $keys = BasemapPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setRegions($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setBorders($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setAspect($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setProjection($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setBoundingBox($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setArea($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setKeys($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setRawData($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setMapshaperParameters($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setTopojson($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setOutlineTopojson($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setLastEditStep($arr[$keys[14]]);
-        if (array_key_exists($keys[15], $arr)) $this->setIsPublic($arr[$keys[15]]);
-        if (array_key_exists($keys[16], $arr)) $this->setPublishedMap($arr[$keys[16]]);
+        if (array_key_exists($keys[1], $arr)) $this->setKey($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setRegionId($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setVersion($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setLastVersion($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setTitle($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setVersionTitle($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setCreatedAt($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setRegions($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setBorders($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setKeys($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setRawData($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setMapshaperParameters($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setTopojson($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setIsPublic($arr[$keys[14]]);
     }
 
     /**
@@ -1483,22 +1445,20 @@ abstract class BaseBasemap extends BaseObject implements Persistent
         $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(BasemapPeer::ID)) $criteria->add(BasemapPeer::ID, $this->id);
-        if ($this->isColumnModified(BasemapPeer::CREATED_AT)) $criteria->add(BasemapPeer::CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(BasemapPeer::KEY)) $criteria->add(BasemapPeer::KEY, $this->key);
+        if ($this->isColumnModified(BasemapPeer::REGION_ID)) $criteria->add(BasemapPeer::REGION_ID, $this->region_id);
+        if ($this->isColumnModified(BasemapPeer::VERSION)) $criteria->add(BasemapPeer::VERSION, $this->version);
+        if ($this->isColumnModified(BasemapPeer::LAST_VERSION)) $criteria->add(BasemapPeer::LAST_VERSION, $this->last_version);
         if ($this->isColumnModified(BasemapPeer::TITLE)) $criteria->add(BasemapPeer::TITLE, $this->title);
+        if ($this->isColumnModified(BasemapPeer::VERSION_TITLE)) $criteria->add(BasemapPeer::VERSION_TITLE, $this->version_title);
+        if ($this->isColumnModified(BasemapPeer::CREATED_AT)) $criteria->add(BasemapPeer::CREATED_AT, $this->created_at);
         if ($this->isColumnModified(BasemapPeer::REGIONS)) $criteria->add(BasemapPeer::REGIONS, $this->regions);
         if ($this->isColumnModified(BasemapPeer::BORDERS)) $criteria->add(BasemapPeer::BORDERS, $this->borders);
-        if ($this->isColumnModified(BasemapPeer::ASPECT)) $criteria->add(BasemapPeer::ASPECT, $this->aspect);
-        if ($this->isColumnModified(BasemapPeer::PROJECTION)) $criteria->add(BasemapPeer::PROJECTION, $this->projection);
-        if ($this->isColumnModified(BasemapPeer::BOUNDING_BOX)) $criteria->add(BasemapPeer::BOUNDING_BOX, $this->bounding_box);
-        if ($this->isColumnModified(BasemapPeer::AREA)) $criteria->add(BasemapPeer::AREA, $this->area);
         if ($this->isColumnModified(BasemapPeer::KEYS)) $criteria->add(BasemapPeer::KEYS, $this->keys);
         if ($this->isColumnModified(BasemapPeer::RAW_DATA)) $criteria->add(BasemapPeer::RAW_DATA, $this->raw_data);
         if ($this->isColumnModified(BasemapPeer::MAPSHAPER_PARAMETERS)) $criteria->add(BasemapPeer::MAPSHAPER_PARAMETERS, $this->mapshaper_parameters);
         if ($this->isColumnModified(BasemapPeer::TOPOJSON)) $criteria->add(BasemapPeer::TOPOJSON, $this->topojson);
-        if ($this->isColumnModified(BasemapPeer::OUTLINE_TOPOJSON)) $criteria->add(BasemapPeer::OUTLINE_TOPOJSON, $this->outline_topojson);
-        if ($this->isColumnModified(BasemapPeer::LAST_EDIT_STEP)) $criteria->add(BasemapPeer::LAST_EDIT_STEP, $this->last_edit_step);
         if ($this->isColumnModified(BasemapPeer::IS_PUBLIC)) $criteria->add(BasemapPeer::IS_PUBLIC, $this->is_public);
-        if ($this->isColumnModified(BasemapPeer::PUBLISHED_MAP)) $criteria->add(BasemapPeer::PUBLISHED_MAP, $this->published_map);
 
         return $criteria;
     }
@@ -1515,28 +1475,38 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     {
         $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
         $criteria->add(BasemapPeer::ID, $this->id);
+        $criteria->add(BasemapPeer::KEY, $this->key);
+        $criteria->add(BasemapPeer::VERSION_TITLE, $this->version_title);
 
         return $criteria;
     }
 
     /**
-     * Returns the primary key for this object (row).
-     * @return string
+     * Returns the composite primary key for this object.
+     * The array elements will be in same order as specified in XML.
+     * @return array
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        $pks = array();
+        $pks[0] = $this->getId();
+        $pks[1] = $this->getKey();
+        $pks[2] = $this->getVersionTitle();
+
+        return $pks;
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Set the [composite] primary key.
      *
-     * @param  string $key Primary key.
+     * @param array $keys The elements of the composite key (order must match the order in XML file).
      * @return void
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey($keys)
     {
-        $this->setId($key);
+        $this->setId($keys[0]);
+        $this->setKey($keys[1]);
+        $this->setVersionTitle($keys[2]);
     }
 
     /**
@@ -1546,7 +1516,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     public function isPrimaryKeyNull()
     {
 
-        return null === $this->getId();
+        return (null === $this->getId()) && (null === $this->getKey()) && (null === $this->getVersionTitle());
     }
 
     /**
@@ -1562,22 +1532,32 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setKey($this->getKey());
+        $copyObj->setRegionId($this->getRegionId());
+        $copyObj->setVersion($this->getVersion());
+        $copyObj->setLastVersion($this->getLastVersion());
         $copyObj->setTitle($this->getTitle());
+        $copyObj->setVersionTitle($this->getVersionTitle());
+        $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setRegions($this->getRegions());
         $copyObj->setBorders($this->getBorders());
-        $copyObj->setAspect($this->getAspect());
-        $copyObj->setProjection($this->getProjection());
-        $copyObj->setBoundingBox($this->getBoundingBox());
-        $copyObj->setArea($this->getArea());
         $copyObj->setKeys($this->getKeys());
         $copyObj->setRawData($this->getRawData());
         $copyObj->setMapshaperParameters($this->getMapshaperParameters());
         $copyObj->setTopojson($this->getTopojson());
-        $copyObj->setOutlineTopojson($this->getOutlineTopojson());
-        $copyObj->setLastEditStep($this->getLastEditStep());
         $copyObj->setIsPublic($this->getIsPublic());
-        $copyObj->setPublishedMap($this->getPublishedMap());
+
+        if ($deepCopy && !$this->startCopy) {
+            // important: temporarily setNew(false) because this affects the behavior of
+            // the getter/setter methods for fkey referrer objects.
+            $copyObj->setNew(false);
+            // store object hash to prevent cycle
+            $this->startCopy = true;
+
+            //unflag object copy
+            $this->startCopy = false;
+        } // if ($deepCopy)
+
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1625,27 +1605,77 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     }
 
     /**
+     * Declares an association between this object and a Region object.
+     *
+     * @param             Region $v
+     * @return Basemap The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setRegion(Region $v = null)
+    {
+        if ($v === null) {
+            $this->setRegionId(NULL);
+        } else {
+            $this->setRegionId($v->getId());
+        }
+
+        $this->aRegion = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the Region object, it will not be re-added.
+        if ($v !== null) {
+            $v->addBasemap($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated Region object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @param $doQuery Executes a query to get the object if required
+     * @return Region The associated Region object.
+     * @throws PropelException
+     */
+    public function getRegion(PropelPDO $con = null, $doQuery = true)
+    {
+        if ($this->aRegion === null && (($this->region_id !== "" && $this->region_id !== null)) && $doQuery) {
+            $this->aRegion = RegionQuery::create()->findPk($this->region_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aRegion->addBasemaps($this);
+             */
+        }
+
+        return $this->aRegion;
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
     {
         $this->id = null;
-        $this->created_at = null;
+        $this->key = null;
+        $this->region_id = null;
+        $this->version = null;
+        $this->last_version = null;
         $this->title = null;
+        $this->version_title = null;
+        $this->created_at = null;
         $this->regions = null;
         $this->borders = null;
-        $this->aspect = null;
-        $this->projection = null;
-        $this->bounding_box = null;
-        $this->area = null;
         $this->keys = null;
         $this->raw_data = null;
         $this->mapshaper_parameters = null;
         $this->topojson = null;
-        $this->outline_topojson = null;
-        $this->last_edit_step = null;
         $this->is_public = null;
-        $this->published_map = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1669,10 +1699,14 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
+            if ($this->aRegion instanceof Persistent) {
+              $this->aRegion->clearAllReferences($deep);
+            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
+        $this->aRegion = null;
     }
 
     /**
