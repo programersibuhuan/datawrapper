@@ -40,12 +40,12 @@ class BasemapTableMap extends TableMap
         $this->setIsCrossRef(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addPrimaryKey('key', 'Key', 'VARCHAR', true, 128, null);
-        $this->addForeignKey('region_id', 'RegionId', 'VARCHAR', 'region', 'id', false, 128, null);
+        $this->addColumn('key', 'Key', 'VARCHAR', false, 128, null);
+        $this->addForeignKey('region_id', 'RegionId', 'INTEGER', 'region', 'id', false, null, null);
         $this->addColumn('version', 'Version', 'INTEGER', true, null, 1);
         $this->addColumn('last_version', 'LastVersion', 'INTEGER', true, null, 1);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 128, null);
-        $this->addPrimaryKey('version_title', 'VersionTitle', 'VARCHAR', true, 128, null);
+        $this->addColumn('version_title', 'VersionTitle', 'VARCHAR', false, 128, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', true, null, null);
         $this->addColumn('regions', 'Regions', 'VARCHAR', false, 128, null);
         $this->addColumn('borders', 'Borders', 'VARCHAR', false, 128, null);

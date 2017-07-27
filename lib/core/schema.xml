@@ -274,14 +274,14 @@
   <!-- basemap  -->
   <table name="basemap" isCrossRef="true">
     <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
-    <column name="key" type="varchar" size="128" primaryKey="true" />
-    <column name="region_id" type="varchar" size="128" />
+    <column name="key" type="varchar" size="128" />
+    <column name="region_id" type="integer" />
 
     <column name="version" type="integer" required="true" default="1" />
     <column name="last_version" type="integer" required="true" default="1" />
 
     <column name="title" type="varchar" size="128" required="true" />
-    <column name="version_title" type="varchar" size="128" primaryKey="true" />
+    <column name="version_title" type="varchar" size="128" />
 
     <column name="created_at" type="timestamp" required="true" />
 
@@ -302,13 +302,14 @@
 
   <!-- region  -->
   <table name="region" isCrossRef="true">
-    <column name="id" type="varchar" size="128" primaryKey="true" />
+    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
     <column name="title" type="varchar" size="128" required="true" />
 
-    <column name="aspect" type="float" />
     <column name="projection" type="varchar" size="512" />
-    <column name="area" type="bigint" />
+    <column name="aspect" type="float" />
     <column name="bounding_box" type="varchar" size="512" />
+
+    <column name="area" type="bigint" />
     <column name="outline_topojson" type="clob" />
   </table>
 

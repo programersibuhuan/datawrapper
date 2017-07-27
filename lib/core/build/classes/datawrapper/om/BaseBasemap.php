@@ -43,7 +43,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
     /**
      * The value for the region_id field.
-     * @var        string
+     * @var        int
      */
     protected $region_id;
 
@@ -193,7 +193,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     /**
      * Get the [region_id] column value.
      *
-     * @return string
+     * @return int
      */
     public function getRegionId()
     {
@@ -395,13 +395,13 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     /**
      * Set the value of [region_id] column.
      *
-     * @param string $v new value
+     * @param int $v new value
      * @return Basemap The current object (for fluent API support)
      */
     public function setRegionId($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->region_id !== $v) {
@@ -725,7 +725,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->key = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->region_id = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->region_id = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->version = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->last_version = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
             $this->title = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
@@ -1037,7 +1037,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
                         $stmt->bindValue($identifier, $this->key, PDO::PARAM_STR);
                         break;
                     case '`region_id`':
-                        $stmt->bindValue($identifier, $this->region_id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->region_id, PDO::PARAM_INT);
                         break;
                     case '`version`':
                         $stmt->bindValue($identifier, $this->version, PDO::PARAM_INT);
@@ -1289,10 +1289,10 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Basemap'][serialize($this->getPrimaryKey())])) {
+        if (isset($alreadyDumpedObjects['Basemap'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Basemap'][serialize($this->getPrimaryKey())] = true;
+        $alreadyDumpedObjects['Basemap'][$this->getPrimaryKey()] = true;
         $keys = BasemapPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
@@ -1475,38 +1475,28 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     {
         $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
         $criteria->add(BasemapPeer::ID, $this->id);
-        $criteria->add(BasemapPeer::KEY, $this->key);
-        $criteria->add(BasemapPeer::VERSION_TITLE, $this->version_title);
 
         return $criteria;
     }
 
     /**
-     * Returns the composite primary key for this object.
-     * The array elements will be in same order as specified in XML.
-     * @return array
+     * Returns the primary key for this object (row).
+     * @return int
      */
     public function getPrimaryKey()
     {
-        $pks = array();
-        $pks[0] = $this->getId();
-        $pks[1] = $this->getKey();
-        $pks[2] = $this->getVersionTitle();
-
-        return $pks;
+        return $this->getId();
     }
 
     /**
-     * Set the [composite] primary key.
+     * Generic method to set the primary key (id column).
      *
-     * @param array $keys The elements of the composite key (order must match the order in XML file).
+     * @param  int $key Primary key.
      * @return void
      */
-    public function setPrimaryKey($keys)
+    public function setPrimaryKey($key)
     {
-        $this->setId($keys[0]);
-        $this->setKey($keys[1]);
-        $this->setVersionTitle($keys[2]);
+        $this->setId($key);
     }
 
     /**
@@ -1516,7 +1506,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
     public function isPrimaryKeyNull()
     {
 
-        return (null === $this->getId()) && (null === $this->getKey()) && (null === $this->getVersionTitle());
+        return null === $this->getId();
     }
 
     /**
@@ -1642,7 +1632,7 @@ abstract class BaseBasemap extends BaseObject implements Persistent
      */
     public function getRegion(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aRegion === null && (($this->region_id !== "" && $this->region_id !== null)) && $doQuery) {
+        if ($this->aRegion === null && ($this->region_id !== null) && $doQuery) {
             $this->aRegion = RegionQuery::create()->findPk($this->region_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference

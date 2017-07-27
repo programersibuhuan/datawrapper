@@ -347,7 +347,7 @@ abstract class BaseBasemapPeer
     {
         if (Propel::isInstancePoolingEnabled()) {
             if ($key === null) {
-                $key = serialize(array((string) $obj->getId(), (string) $obj->getKey(), (string) $obj->getVersionTitle()));
+                $key = (string) $obj->getId();
             } // if key === null
             BasemapPeer::$instances[$key] = $obj;
         }
@@ -370,10 +370,10 @@ abstract class BaseBasemapPeer
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
             if (is_object($value) && $value instanceof Basemap) {
-                $key = serialize(array((string) $value->getId(), (string) $value->getKey(), (string) $value->getVersionTitle()));
-            } elseif (is_array($value) && count($value) === 3) {
+                $key = (string) $value->getId();
+            } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
-                $key = serialize(array((string) $value[0], (string) $value[1], (string) $value[2]));
+                $key = (string) $value;
             } else {
                 $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Basemap object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
@@ -442,11 +442,11 @@ abstract class BaseBasemapPeer
     public static function getPrimaryKeyHashFromRow($row, $startcol = 0)
     {
         // If the PK cannot be derived from the row, return null.
-        if ($row[$startcol] === null && $row[$startcol + 1] === null && $row[$startcol + 6] === null) {
+        if ($row[$startcol] === null) {
             return null;
         }
 
-        return serialize(array((string) $row[$startcol], (string) $row[$startcol + 1], (string) $row[$startcol + 6]));
+        return (string) $row[$startcol];
     }
 
     /**
@@ -461,7 +461,7 @@ abstract class BaseBasemapPeer
     public static function getPrimaryKeyFromRow($row, $startcol = 0)
     {
 
-        return array((int) $row[$startcol], (string) $row[$startcol + 1], (string) $row[$startcol + 6]);
+        return (int) $row[$startcol];
     }
 
     /**
@@ -866,22 +866,6 @@ abstract class BaseBasemapPeer
                 $selectCriteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
             }
 
-            $comparison = $criteria->getComparison(BasemapPeer::KEY);
-            $value = $criteria->remove(BasemapPeer::KEY);
-            if ($value) {
-                $selectCriteria->add(BasemapPeer::KEY, $value, $comparison);
-            } else {
-                $selectCriteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
-            }
-
-            $comparison = $criteria->getComparison(BasemapPeer::VERSION_TITLE);
-            $value = $criteria->remove(BasemapPeer::VERSION_TITLE);
-            if ($value) {
-                $selectCriteria->add(BasemapPeer::VERSION_TITLE, $value, $comparison);
-            } else {
-                $selectCriteria->setPrimaryTableName(BasemapPeer::TABLE_NAME);
-            }
-
         } else { // $values is Basemap object
             $criteria = $values->buildCriteria(); // gets full criteria
             $selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
@@ -956,19 +940,10 @@ abstract class BaseBasemapPeer
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
-            // primary key is composite; we therefore, expect
-            // the primary key passed to be an array of pkey values
-            if (count($values) == count($values, COUNT_RECURSIVE)) {
-                // array is not multi-dimensional
-                $values = array($values);
-            }
-            foreach ($values as $value) {
-                $criterion = $criteria->getNewCriterion(BasemapPeer::ID, $value[0]);
-                $criterion->addAnd($criteria->getNewCriterion(BasemapPeer::KEY, $value[1]));
-                $criterion->addAnd($criteria->getNewCriterion(BasemapPeer::VERSION_TITLE, $value[2]));
-                $criteria->addOr($criterion);
-                // we can invalidate the cache for this single PK
-                BasemapPeer::removeInstanceFromPool($value);
+            $criteria->add(BasemapPeer::ID, (array) $values, Criteria::IN);
+            // invalidate the cache for this object(s)
+            foreach ((array) $values as $singleval) {
+                BasemapPeer::removeInstanceFromPool($singleval);
             }
         }
 
@@ -1031,30 +1006,58 @@ abstract class BaseBasemapPeer
     }
 
     /**
-     * Retrieve object using using composite pkey values.
-     * @param   int $id
-     * @param   string $key
-     * @param   string $version_title
-     * @param      PropelPDO $con
-     * @return   Basemap
+     * Retrieve a single object by pkey.
+     *
+     * @param      int $pk the primary key.
+     * @param      PropelPDO $con the connection to use
+     * @return Basemap
      */
-    public static function retrieveByPK($id, $key, $version_title, PropelPDO $con = null) {
-        $_instancePoolKey = serialize(array((string) $id, (string) $key, (string) $version_title));
-         if (null !== ($obj = BasemapPeer::getInstanceFromPool($_instancePoolKey))) {
-             return $obj;
+    public static function retrieveByPK($pk, PropelPDO $con = null)
+    {
+
+        if (null !== ($obj = BasemapPeer::getInstanceFromPool((string) $pk))) {
+            return $obj;
         }
 
         if ($con === null) {
             $con = Propel::getConnection(BasemapPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
+
         $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
-        $criteria->add(BasemapPeer::ID, $id);
-        $criteria->add(BasemapPeer::KEY, $key);
-        $criteria->add(BasemapPeer::VERSION_TITLE, $version_title);
+        $criteria->add(BasemapPeer::ID, $pk);
+
         $v = BasemapPeer::doSelect($criteria, $con);
 
-        return !empty($v) ? $v[0] : null;
+        return !empty($v) > 0 ? $v[0] : null;
     }
+
+    /**
+     * Retrieve multiple objects by pkey.
+     *
+     * @param      array $pks List of primary keys
+     * @param      PropelPDO $con the connection to use
+     * @return Basemap[]
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function retrieveByPKs($pks, PropelPDO $con = null)
+    {
+        if ($con === null) {
+            $con = Propel::getConnection(BasemapPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $objs = null;
+        if (empty($pks)) {
+            $objs = array();
+        } else {
+            $criteria = new Criteria(BasemapPeer::DATABASE_NAME);
+            $criteria->add(BasemapPeer::ID, $pks, Criteria::IN);
+            $objs = BasemapPeer::doSelect($criteria, $con);
+        }
+
+        return $objs;
+    }
+
 } // BaseBasemapPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.

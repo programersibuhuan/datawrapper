@@ -49,9 +49,8 @@
  * @method Basemap findOne(PropelPDO $con = null) Return the first Basemap matching the query
  * @method Basemap findOneOrCreate(PropelPDO $con = null) Return the first Basemap matching the query, or a new Basemap object populated from the query conditions when no match is found
  *
- * @method Basemap findOneById(int $id) Return the first Basemap filtered by the id column
  * @method Basemap findOneByKey(string $key) Return the first Basemap filtered by the key column
- * @method Basemap findOneByRegionId(string $region_id) Return the first Basemap filtered by the region_id column
+ * @method Basemap findOneByRegionId(int $region_id) Return the first Basemap filtered by the region_id column
  * @method Basemap findOneByVersion(int $version) Return the first Basemap filtered by the version column
  * @method Basemap findOneByLastVersion(int $last_version) Return the first Basemap filtered by the last_version column
  * @method Basemap findOneByTitle(string $title) Return the first Basemap filtered by the title column
@@ -67,7 +66,7 @@
  *
  * @method array findById(int $id) Return Basemap objects filtered by the id column
  * @method array findByKey(string $key) Return Basemap objects filtered by the key column
- * @method array findByRegionId(string $region_id) Return Basemap objects filtered by the region_id column
+ * @method array findByRegionId(int $region_id) Return Basemap objects filtered by the region_id column
  * @method array findByVersion(int $version) Return Basemap objects filtered by the version column
  * @method array findByLastVersion(int $last_version) Return Basemap objects filtered by the last_version column
  * @method array findByTitle(string $title) Return Basemap objects filtered by the title column
@@ -127,11 +126,10 @@ abstract class BaseBasemapQuery extends ModelCriteria
      * Go fast if the query is untouched.
      *
      * <code>
-     * $obj = $c->findPk(array(12, 34, 56), $con);
+     * $obj  = $c->findPk(12, $con);
      * </code>
      *
-     * @param array $key Primary key to use for the query
-                         A Primary key composition: [$id, $key, $version_title]
+     * @param mixed $key Primary key to use for the query
      * @param     PropelPDO $con an optional connection object
      *
      * @return   Basemap|Basemap[]|mixed the result, formatted by the current formatter
@@ -141,7 +139,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = BasemapPeer::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1], (string) $key[2]))))) && !$this->formatter) {
+        if ((null !== ($obj = BasemapPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is alredy in the instance pool
             return $obj;
         }
@@ -159,6 +157,20 @@ abstract class BaseBasemapQuery extends ModelCriteria
     }
 
     /**
+     * Alias of findPk to use instance pooling
+     *
+     * @param     mixed $key Primary key to use for the query
+     * @param     PropelPDO $con A connection object
+     *
+     * @return                 Basemap A model object, or null if the key is not found
+     * @throws PropelException
+     */
+     public function findOneById($key, $con = null)
+     {
+        return $this->findPk($key, $con);
+     }
+
+    /**
      * Find object by primary key using raw SQL to go fast.
      * Bypass doSelect() and the object formatter by using generated code.
      *
@@ -170,12 +182,10 @@ abstract class BaseBasemapQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `key`, `region_id`, `version`, `last_version`, `title`, `version_title`, `created_at`, `regions`, `borders`, `keys`, `raw_data`, `mapshaper_parameters`, `topojson`, `is_public` FROM `basemap` WHERE `id` = :p0 AND `key` = :p1 AND `version_title` = :p2';
+        $sql = 'SELECT `id`, `key`, `region_id`, `version`, `last_version`, `title`, `version_title`, `created_at`, `regions`, `borders`, `keys`, `raw_data`, `mapshaper_parameters`, `topojson`, `is_public` FROM `basemap` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
-            $stmt->bindValue(':p1', $key[1], PDO::PARAM_STR);
-            $stmt->bindValue(':p2', $key[2], PDO::PARAM_STR);
+            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -185,7 +195,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
         if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
             $obj = new Basemap();
             $obj->hydrate($row);
-            BasemapPeer::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1], (string) $key[2])));
+            BasemapPeer::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -214,7 +224,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
     /**
      * Find objects by primary key
      * <code>
-     * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
+     * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
      * @param     array $keys Primary keys to use for the query
      * @param     PropelPDO $con an optional connection object
@@ -244,11 +254,8 @@ abstract class BaseBasemapQuery extends ModelCriteria
      */
     public function filterByPrimaryKey($key)
     {
-        $this->addUsingAlias(BasemapPeer::ID, $key[0], Criteria::EQUAL);
-        $this->addUsingAlias(BasemapPeer::KEY, $key[1], Criteria::EQUAL);
-        $this->addUsingAlias(BasemapPeer::VERSION_TITLE, $key[2], Criteria::EQUAL);
 
-        return $this;
+        return $this->addUsingAlias(BasemapPeer::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -260,19 +267,8 @@ abstract class BaseBasemapQuery extends ModelCriteria
      */
     public function filterByPrimaryKeys($keys)
     {
-        if (empty($keys)) {
-            return $this->add(null, '1<>1', Criteria::CUSTOM);
-        }
-        foreach ($keys as $key) {
-            $cton0 = $this->getNewCriterion(BasemapPeer::ID, $key[0], Criteria::EQUAL);
-            $cton1 = $this->getNewCriterion(BasemapPeer::KEY, $key[1], Criteria::EQUAL);
-            $cton0->addAnd($cton1);
-            $cton2 = $this->getNewCriterion(BasemapPeer::VERSION_TITLE, $key[2], Criteria::EQUAL);
-            $cton0->addAnd($cton2);
-            $this->addOr($cton0);
-        }
 
-        return $this;
+        return $this->addUsingAlias(BasemapPeer::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -351,24 +347,39 @@ abstract class BaseBasemapQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByRegionId('fooValue');   // WHERE region_id = 'fooValue'
-     * $query->filterByRegionId('%fooValue%'); // WHERE region_id LIKE '%fooValue%'
+     * $query->filterByRegionId(1234); // WHERE region_id = 1234
+     * $query->filterByRegionId(array(12, 34)); // WHERE region_id IN (12, 34)
+     * $query->filterByRegionId(array('min' => 12)); // WHERE region_id >= 12
+     * $query->filterByRegionId(array('max' => 12)); // WHERE region_id <= 12
      * </code>
      *
-     * @param     string $regionId The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @see       filterByRegion()
+     *
+     * @param     mixed $regionId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return BasemapQuery The current query, for fluid interface
      */
     public function filterByRegionId($regionId = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($regionId)) {
+        if (is_array($regionId)) {
+            $useMinMax = false;
+            if (isset($regionId['min'])) {
+                $this->addUsingAlias(BasemapPeer::REGION_ID, $regionId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($regionId['max'])) {
+                $this->addUsingAlias(BasemapPeer::REGION_ID, $regionId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $regionId)) {
-                $regionId = str_replace('*', '%', $regionId);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -847,10 +858,7 @@ abstract class BaseBasemapQuery extends ModelCriteria
     public function prune($basemap = null)
     {
         if ($basemap) {
-            $this->addCond('pruneCond0', $this->getAliasedColName(BasemapPeer::ID), $basemap->getId(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond1', $this->getAliasedColName(BasemapPeer::KEY), $basemap->getKey(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond2', $this->getAliasedColName(BasemapPeer::VERSION_TITLE), $basemap->getVersionTitle(), Criteria::NOT_EQUAL);
-            $this->combine(array('pruneCond0', 'pruneCond1', 'pruneCond2'), Criteria::LOGICAL_OR);
+            $this->addUsingAlias(BasemapPeer::ID, $basemap->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;

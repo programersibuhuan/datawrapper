@@ -421,7 +421,7 @@ abstract class BaseRegionPeer
     public static function getPrimaryKeyFromRow($row, $startcol = 0)
     {
 
-        return (string) $row[$startcol];
+        return (int) $row[$startcol];
     }
 
     /**
@@ -536,6 +536,10 @@ abstract class BaseRegionPeer
             $criteria = clone $values; // rename for clarity
         } else {
             $criteria = $values->buildCriteria(); // build Criteria from Region object
+        }
+
+        if ($criteria->containsKey(RegionPeer::ID) && $criteria->keyContainsValue(RegionPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.RegionPeer::ID.')');
         }
 
 
@@ -726,7 +730,7 @@ abstract class BaseRegionPeer
     /**
      * Retrieve a single object by pkey.
      *
-     * @param      string $pk the primary key.
+     * @param      int $pk the primary key.
      * @param      PropelPDO $con the connection to use
      * @return Region
      */

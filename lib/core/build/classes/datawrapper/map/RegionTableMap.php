@@ -36,10 +36,10 @@ class RegionTableMap extends TableMap
         $this->setPhpName('Region');
         $this->setClassname('Region');
         $this->setPackage('datawrapper');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         $this->setIsCrossRef(true);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'VARCHAR', true, 128, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 128, null);
         $this->addColumn('aspect', 'Aspect', 'FLOAT', false, null, null);
         $this->addColumn('projection', 'Projection', 'VARCHAR', false, 512, null);

@@ -40,7 +40,7 @@
  * @method Region findOneByBoundingBox(string $bounding_box) Return the first Region filtered by the bounding_box column
  * @method Region findOneByOutlineTopojson(string $outline_topojson) Return the first Region filtered by the outline_topojson column
  *
- * @method array findById(string $id) Return Region objects filtered by the id column
+ * @method array findById(int $id) Return Region objects filtered by the id column
  * @method array findByTitle(string $title) Return Region objects filtered by the title column
  * @method array findByAspect(double $aspect) Return Region objects filtered by the aspect column
  * @method array findByProjection(string $projection) Return Region objects filtered by the projection column
@@ -153,7 +153,7 @@ abstract class BaseRegionQuery extends ModelCriteria
         $sql = 'SELECT `id`, `title`, `aspect`, `projection`, `area`, `bounding_box`, `outline_topojson` FROM `region` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key, PDO::PARAM_STR);
+            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -244,24 +244,37 @@ abstract class BaseRegionQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterById('fooValue');   // WHERE id = 'fooValue'
-     * $query->filterById('%fooValue%'); // WHERE id LIKE '%fooValue%'
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id >= 12
+     * $query->filterById(array('max' => 12)); // WHERE id <= 12
      * </code>
      *
-     * @param     string $id The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return RegionQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($id)) {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(RegionPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(RegionPeer::ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $id)) {
-                $id = str_replace('*', '%', $id);
-                $comparison = Criteria::LIKE;
             }
         }
 

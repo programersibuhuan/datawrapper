@@ -31,7 +31,7 @@ abstract class BaseRegion extends BaseObject implements Persistent
 
     /**
      * The value for the id field.
-     * @var        string
+     * @var        int
      */
     protected $id;
 
@@ -106,7 +106,7 @@ abstract class BaseRegion extends BaseObject implements Persistent
     /**
      * Get the [id] column value.
      *
-     * @return string
+     * @return int
      */
     public function getId()
     {
@@ -176,13 +176,13 @@ abstract class BaseRegion extends BaseObject implements Persistent
     /**
      * Set the value of [id] column.
      *
-     * @param string $v new value
+     * @param int $v new value
      * @return Region The current object (for fluent API support)
      */
     public function setId($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->id !== $v) {
@@ -352,7 +352,7 @@ abstract class BaseRegion extends BaseObject implements Persistent
     {
         try {
 
-            $this->id = ($row[$startcol + 0] !== null) ? (string) $row[$startcol + 0] : null;
+            $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->title = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->aspect = ($row[$startcol + 2] !== null) ? (double) $row[$startcol + 2] : null;
             $this->projection = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
@@ -593,6 +593,10 @@ abstract class BaseRegion extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[] = RegionPeer::ID;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . RegionPeer::ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(RegionPeer::ID)) {
@@ -628,7 +632,7 @@ abstract class BaseRegion extends BaseObject implements Persistent
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
                     case '`id`':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
                     case '`title`':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
@@ -655,6 +659,13 @@ abstract class BaseRegion extends BaseObject implements Persistent
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -971,7 +982,7 @@ abstract class BaseRegion extends BaseObject implements Persistent
 
     /**
      * Returns the primary key for this object (row).
-     * @return string
+     * @return int
      */
     public function getPrimaryKey()
     {
@@ -981,7 +992,7 @@ abstract class BaseRegion extends BaseObject implements Persistent
     /**
      * Generic method to set the primary key (id column).
      *
-     * @param  string $key Primary key.
+     * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)

@@ -350,12 +350,12 @@ DROP TABLE IF EXISTS `basemap`;
 CREATE TABLE `basemap`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `key` VARCHAR(128) NOT NULL,
-    `region_id` VARCHAR(128),
+    `key` VARCHAR(128),
+    `region_id` INTEGER,
     `version` INTEGER DEFAULT 1 NOT NULL,
     `last_version` INTEGER DEFAULT 1 NOT NULL,
     `title` VARCHAR(128) NOT NULL,
-    `version_title` VARCHAR(128) NOT NULL,
+    `version_title` VARCHAR(128),
     `created_at` DATETIME NOT NULL,
     `regions` VARCHAR(128),
     `borders` VARCHAR(128),
@@ -364,7 +364,7 @@ CREATE TABLE `basemap`
     `mapshaper_parameters` LONGTEXT,
     `topojson` LONGTEXT,
     `is_public` TINYINT(1) DEFAULT 1,
-    PRIMARY KEY (`id`,`key`,`version_title`),
+    PRIMARY KEY (`id`),
     INDEX `basemap_FI_1` (`region_id`)
 ) ENGINE=MyISAM;
 
@@ -376,7 +376,7 @@ DROP TABLE IF EXISTS `region`;
 
 CREATE TABLE `region`
 (
-    `id` VARCHAR(128) NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(128) NOT NULL,
     `aspect` FLOAT,
     `projection` VARCHAR(512),
