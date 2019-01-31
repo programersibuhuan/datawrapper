@@ -21,8 +21,9 @@ build('publish/sidebar', {no_amd:true});
 build('highlight');
 build('editor');
 build('account');
+build('admin/users');
 
-targets.push({
+if (checkTarget('render')) targets.push({
     input: 'render/index.js',
     output: {
         name: 'render',
@@ -46,7 +47,7 @@ targets.push({
     ]
 });
 
-targets.push({
+if (checkTarget('embed')) targets.push({
     input: 'embed/index.js',
     output: {
         name: 'embed',
@@ -74,11 +75,7 @@ function build(app_id, opts) {
         entry: 'main.js',
         append: ''
     }, opts);
-    if (process.env.ROLLUP_TGT_APP) {
-        if (app_id !== process.env.ROLLUP_TGT_APP) {
-            return;
-        }
-    }
+    if (!checkTarget(app_id)) return;
     targets.push({
         input: `${app_id}/${entry}`,
         external: [
@@ -154,3 +151,7 @@ function build(app_id, opts) {
     });
 }
 
+function checkTarget(appId) {
+    if (!process.env.ROLLUP_TGT_APP) return true;
+    return process.env.ROLLUP_TGT_APP === appId;
+}
