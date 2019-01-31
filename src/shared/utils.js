@@ -9,11 +9,10 @@ export function fetchJSON(url, method, credentials, body, callback) {
 
     window.fetch(url, opts)
     .then(res => {
-        if (res.status != 200) return new Error(res.statusText);
+        if (res.status !== 200) return new Error(res.statusText);
         return res.text();
     })
     .then(text => {
-        // console.log('status', res);
         try {
             return JSON.parse(text);
         } catch (Error) {
@@ -29,7 +28,7 @@ export function fetchJSON(url, method, credentials, body, callback) {
 }
 
 export function getJSON(url, credentials, callback) {
-    if (arguments.length == 2) {
+    if (arguments.length === 2) {
         callback = credentials;
         credentials = "include";
     }
@@ -58,7 +57,7 @@ export function toFixed(v) {
 }
 
 export function isValidUrl(textval) {
-    var urlregex = /^(http|https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/;
+    var urlregex = /^(http|https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=/?]|%[0-9a-fA-F]{2})*)?(#([a-zA-Z0-9$\-_.+!*'(),;:@&=/?]|%[0-9a-fA-F]{2})*)?)?$/;
     return urlregex.test(textval);
 }
 
@@ -66,7 +65,6 @@ export function loadScript(src, callback) {
     const script = document.createElement('script');
     script.src = src;
     script.onload = () => {
-        console.log('script', src, 'loaded');
         if (callback) callback();
     };
     document.body.appendChild(script);
@@ -77,7 +75,6 @@ export function loadStylesheet(src, callback) {
     link.rel = 'stylesheet';
     link.href = src;
     link.onload = () => {
-        console.log('style', src, 'loaded');
         if (callback) callback();
     };
     document.head.appendChild(link);
